@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}@keyframes pulse-subtle{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.2);}}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-primary-fixed-variant": "#3e4660", "on-tertiary-fixed": "#111a36", "on-tertiary": "#ffffff", "surface-container-lowest": "#ffffff", "on-surface": "#0b1c30", "tertiary-fixed": "#dbe1ff", "primary": "#000000", "on-surface-variant": "#45464d", "outline-variant": "#c6c6ce", "inverse-surface": "#213145", "tertiary-fixed-dim": "#bdc5e9", "outline": "#76767e", "secondary-container": "#6cf8bb", "surface-container-low": "#eff4ff", "surface-bright": "#f8f9ff", "surface-container-high": "#dce9ff", "inverse-primary": "#bec5e5", "on-secondary-fixed": "#002113", "surface-variant": "#d3e4fe", "surface-container-highest": "#d3e4fe", "tertiary": "#000000", "on-tertiary-container": "#7a83a4", "secondary-fixed-dim": "#4edea3", "error-container": "#ffdad6", "on-primary-container": "#7b83a0", "secondary": "#006c49", "on-error-container": "#93000a", "on-background": "#0b1c30", "surface-container": "#e5eeff", "on-primary": "#ffffff", "inverse-on-surface": "#eaf1ff", "on-secondary-fixed-variant": "#005236", "primary-fixed-dim": "#bec5e5", "on-secondary-container": "#00714d", "surface-tint": "#565d79", "on-tertiary-fixed-variant": "#3d4664", "tertiary-container": "#111a36", "error": "#ba1a1a", "primary-fixed": "#dbe1ff", "secondary-fixed": "#6ffbbe", "on-primary-fixed": "#131a33", "surface-dim": "#cbdbf5", "primary-container": "#131a33", "surface": "#f8f9ff", "background": "#f8f9ff", "on-error": "#ffffff", "on-secondary": "#ffffff" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "margin-lg": "4rem", "margin": "1.5rem", "margin-sm": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "space-xs": "0.25rem", "gutter-sm": "1rem", "gutter-lg": "2rem", "space-md": "1rem", "space-xl": "2.5rem", "gutter": "1.5rem" }, fontFamily: { "headline-lg": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "label-button": ["Plus Jakarta Sans"], "body-lg": ["Inter"], "label-caps": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "body-md": ["Inter"], "display-hero-mobile": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "stat-counter": ["Plus Jakarta Sans"], "stat-counter-mobile": ["Plus Jakarta Sans"], "display-hero": ["Plus Jakarta Sans"] }, fontSize: { "headline-lg": ["3rem", { "lineHeight": "3.5rem", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-lg-mobile": ["2rem", { "lineHeight": "2.5rem", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-button": ["0.9375rem", { "lineHeight": "1rem", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-lg": ["1.125rem", { "lineHeight": "1.875rem", "letterSpacing": "-0.01em", "fontWeight": "400" }], "label-caps": ["0.75rem", { "lineHeight": "1rem", "letterSpacing": "0.08em", "fontWeight": "700" }], "headline-sm": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-md": ["2rem", { "lineHeight": "2.5rem", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["1rem", { "lineHeight": "1.625rem", "letterSpacing": "-0.005em", "fontWeight": "400" }], "display-hero-mobile": ["2.5rem", { "lineHeight": "3rem", "letterSpacing": "-0.02em", "fontWeight": "800" }], "body-sm": ["0.875rem", { "lineHeight": "1.375rem", "fontWeight": "400" }], "stat-counter": ["3.5rem", { "lineHeight": "3.75rem", "letterSpacing": "-0.03em", "fontWeight": "800" }], "stat-counter-mobile": ["2.25rem", { "lineHeight": "2.5rem", "letterSpacing": "-0.02em", "fontWeight": "800" }], "display-hero": ["4rem", { "lineHeight": "4.5rem", "letterSpacing": "-0.03em", "fontWeight": "800" }] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin-sm flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><img alt="FSD Web Studio Logo" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrDJM79AMkN0xlm-rQ2ZHY2v9Xlopc3pUniy6nnxMoo_2BWInt-lcfI_CY5e8V_GbUFK3ST2XlUMpPHtixlYrqTojwSd3FEY24Iuq8M5fpGkXxGCVqAb2eP34PUgwqmuRCy-f-_x3CrK5qFfOoAhh-yc_-PBAFRoyCcDhsCWIpFF83qbPZPRu0TAqv16Vlv94fMuFoSg61nmYvbS-eOeAcxRF9lvwXGEHiJIWjASiUyf"/><div class="flex flex-col min-w-0"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight truncate leading-tight">FSD Studio</span><span class="font-label-caps text-label-caps text-on-surface-variant truncate uppercase">Portfolio</span></div></div><div class="flex items-center gap-space-xs shrink-0"><div class="hidden xs:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_4px_rgba(0,0,0,0.04)]"><span class="w-2 h-2 rounded-full bg-secondary shrink-0" style="animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;"></span><span class="font-label-caps text-[10px] tracking-wider text-secondary font-semibold uppercase whitespace-nowrap">Available Q2</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><button aria-label="Open Menu" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-[24px]">menu</span></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<!-- Top Intro Section -->
+<section class="px-margin-sm pt-space-md pb-space-sm flex flex-col gap-space-xs">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low w-fit shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-caps text-label-caps text-secondary uppercase">Bespoke Case Studies</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight mt-1">
+      Our Work &amp; Case Studies
+    </h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+      Explore recent projects engineered for performance, conversion, and brand elevation.
+    </p>
+<!-- Category Filter Pills (Horizontal scrollable, touch-friendly) -->
+<div class="flex items-center gap-2 overflow-x-auto py-2 -mx-margin-sm px-margin-sm no-scrollbar" id="categoryFilters">
+<button class="filter-btn active-filter px-4 py-2 rounded-full font-label-button text-label-button whitespace-nowrap transition-all shadow-sm bg-primary text-on-primary" data-filter="all" type="button">
+        All
+      </button>
+<button class="filter-btn px-4 py-2 rounded-full font-label-button text-label-button whitespace-nowrap transition-all shadow-sm bg-surface-container-low text-on-surface hover:bg-surface-container" data-filter="websites" type="button">
+        Websites
+      </button>
+<button class="filter-btn px-4 py-2 rounded-full font-label-button text-label-button whitespace-nowrap transition-all shadow-sm bg-surface-container-low text-on-surface hover:bg-surface-container" data-filter="ecommerce" type="button">
+        E-Commerce
+      </button>
+<button class="filter-btn px-4 py-2 rounded-full font-label-button text-label-button whitespace-nowrap transition-all shadow-sm bg-surface-container-low text-on-surface hover:bg-surface-container" data-filter="webapps" type="button">
+        Web Apps
+      </button>
+<button class="filter-btn px-4 py-2 rounded-full font-label-button text-label-button whitespace-nowrap transition-all shadow-sm bg-surface-container-low text-on-surface hover:bg-surface-container" data-filter="uiux" type="button">
+        UI/UX
+      </button>
+</div>
+</section>
+<!-- Project Showcase Cards Grid -->
+<section class="px-margin-sm py-space-sm flex flex-col gap-space-lg" id="projectsContainer">
+<!-- Project 1: FinVantage Global OS -->
+<article class="project-card flex flex-col rounded-xl bg-surface-container-lowest shadow-md overflow-hidden transition-all duration-300" data-category="webapps">
+<div class="relative w-full aspect-[16/10] bg-surface-container overflow-hidden group">
+<img alt="FinVantage Global OS Interface Display" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGU4V-NaoRDdLYtsDwsE66sAMYPyAhPgB4pJ9GXSzxr5dqesZX72tUMsH9XVw4gzw1y1hqCcZq51YzHM9KU9HTHyyYcCTGUM0cugX4aZCwWZ4LxSpYx3-fOw1vffkUz7AhEDDRj17sWbOe-E3lbX-fv4BdSvGU0h3xSud9SDRsmwTg1DX9lV0jRprc3AtWUWPXaKl14QVSoIp_1STRQrEvyS-f_5tcJpVbGwB65rqF"/>
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface/85 backdrop-blur-md shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-caps text-[10px] text-on-surface uppercase tracking-wider font-semibold">Live System</span>
+</div>
+<div class="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-primary/80 backdrop-blur-md text-on-primary font-label-caps text-[10px] uppercase">
+          Fintech &amp; SaaS
+        </div>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-secondary uppercase font-bold">Custom Web Application</span>
+<span class="font-body-sm text-body-sm text-outline">Q1 2025</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">FinVantage Global OS</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3">
+          Real-time neobank treasury dashboard with biometric authorization, animated analytics, and multi-currency liquidity management.
+        </p>
+<!-- Dynamic Impact Micro-Stats -->
+<div class="mt-2 py-2 px-3 rounded-lg bg-surface-container-low flex items-center justify-between gap-2">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0">trending_up</span>
+<span class="font-label-caps text-[11px] text-on-surface truncate font-semibold">+210% User Retention</span>
+</div>
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0">bolt</span>
+<span class="font-label-caps text-[11px] text-on-surface truncate font-semibold">0.4s Query Latency</span>
+</div>
+</div>
+<!-- Action CTA Buttons -->
+<div class="grid grid-cols-2 gap-space-xs pt-space-xs">
+<a class="h-10 px-3 rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container font-label-button text-[13px] flex items-center justify-center gap-1 shadow-sm transition-colors" href="#">
+<span class="truncate">Live Demo</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+<button class="h-10 px-3 rounded-full bg-primary text-on-primary hover:bg-inverse-surface font-label-button text-[13px] flex items-center justify-center gap-1 shadow-sm transition-colors" onclick="openCaseStudy('finvantage')" type="button">
+<span class="truncate">Project Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Project 2: Aurelia Maison Luxury Store -->
+<article class="project-card flex flex-col rounded-xl bg-surface-container-lowest shadow-md overflow-hidden transition-all duration-300" data-category="ecommerce">
+<div class="relative w-full aspect-[16/10] bg-surface-container overflow-hidden group">
+<img alt="Aurelia Maison Luxury Storefront on Mobile" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJ8T8LIhgn0I4zj3QYc2YNNvopJeW0yxDUtkaA7dT5CzqrlWup6bK07IjnnM7FzJs-E2KVSa7mhnDweAYpMe_UROj2GiGggRkrZEO_hw9iZzJBTQcuJ3Tg92qZsZzaM9IeI7W2m4IRInYc-gJ1f3WxzwHUURxVv-gOOoYzmPb821XqplbJp5kxvRDuJGg0DCEsJrldNUnd7eV9aCWanZf_pt5_J8DaCvvEV-i9yb7e"/>
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface/85 backdrop-blur-md shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-caps text-[10px] text-on-surface uppercase tracking-wider font-semibold">Headless Store</span>
+</div>
+<div class="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-primary/80 backdrop-blur-md text-on-primary font-label-caps text-[10px] uppercase">
+          Luxury Fashion
+        </div>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-secondary uppercase font-bold">E-Commerce Architecture</span>
+<span class="font-body-sm text-body-sm text-outline">Q4 2024</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Aurelia Maison Luxury Store</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3">
+          Minimalist high-fashion online flagship store with sub-second page transitions, dynamic lookbooks, and 1-click Apple Pay checkout.
+        </p>
+<!-- Dynamic Impact Micro-Stats -->
+<div class="mt-2 py-2 px-3 rounded-lg bg-surface-container-low flex items-center justify-between gap-2">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0">payments</span>
+<span class="font-label-caps text-[11px] text-on-surface truncate font-semibold">€2.4M Q1 GMV</span>
+</div>
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0">shopping_bag</span>
+<span class="font-label-caps text-[11px] text-on-surface truncate font-semibold">+85% Mobile Orders</span>
+</div>
+</div>
+<!-- Action CTA Buttons -->
+<div class="grid grid-cols-2 gap-space-xs pt-space-xs">
+<a class="h-10 px-3 rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container font-label-button text-[13px] flex items-center justify-center gap-1 shadow-sm transition-colors" href="#">
+<span class="truncate">Live Store</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+<button class="h-10 px-3 rounded-full bg-primary text-on-primary hover:bg-inverse-surface font-label-button text-[13px] flex items-center justify-center gap-1 shadow-sm transition-colors" onclick="openCaseStudy('aurelia')" type="button">
+<span class="truncate">Project Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Project 3: Atlas Analytics Cloud Platform -->
+<article class="project-card flex flex-col rounded-xl bg-surface-container-lowest shadow-md overflow-hidden transition-all duration-300" data-category="webapps">
+<div class="relative w-full aspect-[16/10] bg-surface-container overflow-hidden group">
+<img alt="Atlas Analytics Cloud Platform Desktop Dashboard" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9N4WXLf8S31pz6qMb5N-Q9uCsQjmHcvlkMETmoFwVXwHtkTaYv9LdRR-D14yYLG434Kh1nLj37VyGpqfC-Ixqm14lTVoXWhCdJG_JzBEARox6OTJ4VkJ0OkPC1o-d7HGLPhNeRluSYTXU2DVHpBKTjT9wZWusB2DoosIPa_9lkzNhQ9gBw3So1UjZY9510cBX7wbA1affWSEQUGs6yZ4KodbUXmhLznUY3X2cTNM9"/>
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface/85 backdrop-blur-md shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-caps text-[10px] text-on-surface uppercase tracking-wider font-semibold">Enterprise SaaS</span>
+</div>
+<div class="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-primary/80 backdrop-blur-md text-on-primary font-label-caps text-[10px] uppercase">
+          Data Visualization
+        </div>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-secondary uppercase font-bold">Cloud Web Application</span>
+<span class="font-body-sm text-body-sm text-outline">Q3 2024</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Atlas Analytics Cloud Platform</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3">
+          Enterprise BI and traffic telemetry dashboard with interactive charts, automated reporting pipelines, and team role permissions.
+        </p>
+<!-- Dynamic Impact Micro-Stats -->
+<div class="mt-2 py-2 px-3 rounded-lg bg-surface-container-low flex items-center justify-between gap-2">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0">group</span>
+<span class="font-label-caps text-[11px] text-on-surface truncate font-semibold">10k+ Daily Actives</span>
+</div>
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0">verified</span>
+<span class="font-label-caps text-[11px] text-on-surface truncate font-semibold">99.99% Cloud Uptime</span>
+</div>
+</div>
+<!-- Action CTA Buttons -->
+<div class="grid grid-cols-2 gap-space-xs pt-space-xs">
+<a class="h-10 px-3 rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container font-label-button text-[13px] flex items-center justify-center gap-1 shadow-sm transition-colors" href="#">
+<span class="truncate">Live Demo</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+<button class="h-10 px-3 rounded-full bg-primary text-on-primary hover:bg-inverse-surface font-label-button text-[13px] flex items-center justify-center gap-1 shadow-sm transition-colors" onclick="openCaseStudy('atlas')" type="button">
+<span class="truncate">Project Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+</section>
+<!-- Client Results Summary Bento -->
+<section class="px-margin-sm py-space-md">
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-md flex flex-col gap-space-sm relative overflow-hidden">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[24px]">verified_user</span>
+<span class="font-label-caps text-label-caps text-secondary uppercase font-bold">Studio Performance Standard</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">
+        Architected for Compound Growth
+      </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Every digital build undergoes ruthless load testing and accessibility audits before deployment.
+      </p>
+<div class="grid grid-cols-3 gap-2 pt-2">
+<div class="flex flex-col items-center justify-center p-3 rounded-lg bg-surface-container-low text-center">
+<span class="font-stat-counter-mobile text-stat-counter-mobile text-secondary font-extrabold">3.2x</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase mt-1">Avg. Conversion</span>
+</div>
+<div class="flex flex-col items-center justify-center p-3 rounded-lg bg-surface-container-low text-center">
+<span class="font-stat-counter-mobile text-stat-counter-mobile text-secondary font-extrabold">98+</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase mt-1">Lighthouse Score</span>
+</div>
+<div class="flex flex-col items-center justify-center p-3 rounded-lg bg-surface-container-low text-center">
+<span class="font-stat-counter-mobile text-stat-counter-mobile text-secondary font-extrabold">0s</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase mt-1">Downtime Shift</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Conversion Banner -->
+<section class="px-margin-sm pt-space-xs pb-space-lg">
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-lg flex flex-col gap-space-sm text-center items-center relative overflow-hidden">
+<div class="w-12 h-12 rounded-full bg-secondary-container/50 flex items-center justify-center text-on-secondary-container mb-1">
+<span class="material-symbols-outlined text-[26px]">rocket_launch</span>
+</div>
+<span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest font-bold">Initiate Collaboration</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface max-w-xs">
+        Have a visionary project in mind?
+      </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm">
+        Let us engineer a bespoke digital flag bearer for your brand. Now reviewing inquiries for Q2 onboarding.
+      </p>
+<a class="mt-2 h-12 px-6 rounded-full bg-secondary text-on-secondary font-label-button text-label-button inline-flex items-center gap-2 shadow-md hover:opacity-95 transition-opacity" data-path="contact-us" href="#">
+<span>Book Strategy Call</span>
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+</a>
+</div>
+</section>
+<!-- Interactive Project Details Modal Backdrop & Sheet -->
+<div class="fixed inset-0 z-50 flex items-end justify-center bg-inverse-surface/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" id="caseStudyModal">
+<div class="w-full max-w-md max-h-[85vh] bg-surface rounded-t-2xl shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 ease-out overflow-hidden" id="modalSheet">
+<!-- Modal Sticky Header -->
+<div class="p-space-md bg-surface flex items-center justify-between border-b border-outline-variant/30">
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-[10px] text-secondary font-bold uppercase tracking-wider truncate" id="modalCategory">Category</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate" id="modalTitle">Case Study Title</h3>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors shrink-0" onclick="closeCaseStudy()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Modal Body (Scrollable) -->
+<div class="p-space-md flex-1 overflow-y-auto flex flex-col gap-space-md">
+<!-- Client Background & Problem Statement -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-1 text-on-surface font-semibold text-[13px]">
+<span class="material-symbols-outlined text-secondary text-[18px]">problem</span>
+<span>Problem &amp; Challenge</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed" id="modalProblem">
+            Description of the client challenge.
+          </p>
+</div>
+<!-- Solution & Tech Stack -->
+<div class="flex flex-col gap-2 p-3 rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-1 text-on-surface font-semibold text-[13px]">
+<span class="material-symbols-outlined text-secondary text-[18px]">terminal</span>
+<span>Engineered Architecture</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant" id="modalSolution">
+            Technical solution outline.
+          </p>
+<div class="flex flex-wrap gap-1.5 pt-1" id="modalStack">
+<!-- Dynamic stack tags -->
+</div>
+</div>
+<!-- Measurable Business Outcomes -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-1 text-on-surface font-semibold text-[13px]">
+<span class="material-symbols-outlined text-secondary text-[18px]">analytics</span>
+<span>Quantified Impact</span>
+</div>
+<div class="grid grid-cols-2 gap-2" id="modalMetrics">
+<!-- Dynamic stats metrics -->
+</div>
+</div>
+<!-- Client Quote & Testimonial -->
+<div class="p-3.5 rounded-xl bg-surface-container-low flex flex-col gap-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-[18px]">format_quote</span>
+<span class="font-label-caps text-[11px] text-secondary font-bold uppercase">Executive Feedback</span>
+</div>
+<blockquote class="font-body-sm text-body-sm text-on-surface italic" id="modalQuote">
+            "Client quote here..."
+          </blockquote>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold" id="modalAuthor">
+            — Name, Title
+          </span>
+</div>
+<!-- Modal Action Link -->
+<div class="pt-2 pb-6">
+<button class="w-full h-11 rounded-full bg-primary text-on-primary font-label-button text-label-button flex items-center justify-center gap-1.5 shadow-md" onclick="closeCaseStudy()" type="button">
+<span>Close Overview</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Case Study Details Data Store
+  const CASE_STUDIES = {
+    finvantage: {
+      title: "FinVantage Global OS",
+      category: "Fintech Web App & Security Architecture",
+      problem: "FinVantage was experiencing excessive query latencies on their institutional liquidity dashboard, resulting in drop-offs and poor user engagement across trading desks.",
+      solution: "Engineered an ultra-low-latency real-time dashboard powered by WebSockets, biometrics authentication fallback, and high-frequency canvas-rendered charting.",
+      stack: ["React 19", "Tailwind CSS", "Rust WASM", "GraphQL", "Redis Cache"],
+      metrics: [
+        { label: "Query Latency", value: "0.4s" },
+        { label: "Active Retention", value: "+210%" },
+        { label: "Daily Transfers", value: "$4.8M" },
+        { label: "Error Budget", value: "99.99%" }
+      ],
+      quote: "FSD took our complex financial transaction pipelines and packaged them into an interface that feels like high art. Our clients are transacting 3x more often.",
+      author: "Alex Rivero — CTO at FinVantage"
+    },
+    aurelia: {
+      title: "Aurelia Maison Luxury Store",
+      category: "Headless E-Commerce & Micro-Interactions",
+      problem: "The brand's previous monolithic store suffered 3.8s mobile load times, resulting in low checkout conversions among luxury global shoppers.",
+      solution: "Built a fully headless Next.js flagship utilizing Shopify Storefront GraphQL, client-side lookbook interactions, instant Apple Pay shortcuts, and global CDN asset edge routing.",
+      stack: ["Next.js", "Tailwind CSS", "Shopify GraphQL", "Framer Motion", "Stripe API"],
+      metrics: [
+        { label: "First Quarter GMV", value: "€2.4M" },
+        { label: "Mobile Checkouts", value: "+85%" },
+        { label: "Page Load Speed", value: "0.8s" },
+        { label: "Cart Abandonment", value: "-34%" }
+      ],
+      quote: "Working with FSD felt like collaborating with high-fashion couturiers who also happen to be brilliant software architects. The launch was flawless.",
+      author: "Hélène de Vance — Head of Digital, Aurelia Maison"
+    },
+    atlas: {
+      title: "Atlas Analytics Cloud Platform",
+      category: "Enterprise BI Platform & Data Visualization",
+      problem: "Atlas required an enterprise telemetry dashboard capable of rendering tens of thousands of active nodes without freezing the client browser thread.",
+      solution: "Architected a custom WebGL and SVG visualization pipeline combined with optimistic client queries and fine-grained role-based permissions access.",
+      stack: ["React", "WebGL Shaders", "Node.js", "PostgreSQL", "Tailwind"],
+      metrics: [
+        { label: "Daily Active Users", value: "10,000+" },
+        { label: "System Uptime", value: "99.99%" },
+        { label: "Chart Render Time", value: "<16ms" },
+        { label: "Enterprise Churn", value: "<0.8%" }
+      ],
+      quote: "The interactive speed of Atlas Analytics has turned our demo into an instant sales closure machine. FSD delivered an unmatched standard.",
+      author: "Marcus Thorne — VP of Product, Atlas Cloud"
+    }
+  };
+
+  // Open & Populate Modal
+  function openCaseStudy(key) {
+    const data = CASE_STUDIES[key];
+    if (!data) return;
+
+    document.getElementById('modalTitle').textContent = data.title;
+    document.getElementById('modalCategory').textContent = data.category;
+    document.getElementById('modalProblem').textContent = data.problem;
+    document.getElementById('modalSolution').textContent = data.solution;
+    document.getElementById('modalQuote').textContent = `"${data.quote}"`;
+    document.getElementById('modalAuthor').textContent = `— ${data.author}`;
+
+    // Render Tech Stack
+    const stackContainer = document.getElementById('modalStack');
+    stackContainer.innerHTML = '';
+    data.stack.forEach(tech => {
+      const pill = document.createElement('span');
+      pill.className = 'px-2.5 py-1 rounded-md bg-surface-container font-label-caps text-[10px] text-on-surface font-semibold';
+      pill.textContent = tech;
+      stackContainer.appendChild(pill);
+    });
+
+    // Render Metrics
+    const metricsContainer = document.getElementById('modalMetrics');
+    metricsContainer.innerHTML = '';
+    data.metrics.forEach(metric => {
+      const card = document.createElement('div');
+      card.className = 'p-2.5 rounded-lg bg-surface-container-low flex flex-col';
+      card.innerHTML = `
+        <span class="font-headline-sm text-[16px] text-secondary font-bold leading-tight">${metric.value}</span>
+        <span class="font-label-caps text-[10px] text-on-surface-variant uppercase mt-0.5">${metric.label}</span>
+      `;
+      metricsContainer.appendChild(card);
+    });
+
+    // Reveal modal with animation
+    const modal = document.getElementById('caseStudyModal');
+    const sheet = document.getElementById('modalSheet');
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    modal.classList.add('opacity-100');
+    sheet.classList.remove('translate-y-full');
+    sheet.classList.add('translate-y-0');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Close Modal
+  function closeCaseStudy() {
+    const modal = document.getElementById('caseStudyModal');
+    const sheet = document.getElementById('modalSheet');
+    sheet.classList.remove('translate-y-0');
+    sheet.classList.add('translate-y-full');
+    modal.classList.remove('opacity-100');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    document.body.style.overflow = '';
+  }
+
+  // Modal backdrop click to dismiss
+  document.getElementById('caseStudyModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeCaseStudy();
+    }
+  });
+
+  // Filter Pill Functionality
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Toggle button styles
+      filterButtons.forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'active-filter');
+        b.classList.add('bg-surface-container-low', 'text-on-surface');
+      });
+      btn.classList.add('bg-primary', 'text-on-primary', 'active-filter');
+      btn.classList.remove('bg-surface-container-low', 'text-on-surface');
+
+      const filter = btn.getAttribute('data-filter');
+      projectCards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (filter === 'all' || cat === filter) {
+          card.style.display = 'flex';
+          card.classList.add('animate-fadeIn');
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script><footer class="w-full bg-surface-container-lowest mt-space-xl pt-space-xl pb-28 px-margin-sm"><div class="max-w-md mx-auto flex flex-col gap-space-lg"><div class="flex flex-col gap-space-xs"><div class="flex items-center gap-space-xs"><img alt="FSD Web Studio Logo" class="h-6 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrDJM79AMkN0xlm-rQ2ZHY2v9Xlopc3pUniy6nnxMoo_2BWInt-lcfI_CY5e8V_GbUFK3ST2XlUMpPHtixlYrqTojwSd3FEY24Iuq8M5fpGkXxGCVqAb2eP34PUgwqmuRCy-f-_x3CrK5qFfOoAhh-yc_-PBAFRoyCcDhsCWIpFF83qbPZPRu0TAqv16Vlv94fMuFoSg61nmYvbS-eOeAcxRF9lvwXGEHiJIWjASiUyf"/><span class="font-headline-sm text-headline-sm text-on-surface">FSD Web Studio</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">Architectural digital craft, bespoke engineering, and ultra-modern web systems built for ambitious brands worldwide.</p></div><div class="grid grid-cols-2 gap-space-sm pt-space-xs"><div class="flex flex-col gap-space-xs"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Navigation</span><a class="font-body-sm text-body-sm text-on-surface hover:text-secondary transition-colors py-1" data-path="home" href="#">Home</a><a class="font-body-sm text-body-sm text-on-surface hover:text-secondary transition-colors py-1" data-path="about-us" href="#">About Us</a><a class="font-body-sm text-body-sm text-on-surface hover:text-secondary transition-colors py-1" data-path="services" href="#">Services</a><a class="font-body-sm text-body-sm text-on-surface hover:text-secondary transition-colors py-1" data-path="portfolio" href="#">Portfolio</a><a class="font-body-sm text-body-sm text-on-surface hover:text-secondary transition-colors py-1" data-path="contact-us" href="#">Contact</a></div><div class="flex flex-col gap-space-xs"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Inquiries</span><a class="font-body-sm text-body-sm text-on-surface hover:text-secondary transition-colors py-1 truncate" href="mailto:hello@fsdwebstudio.com">hello@fsdwebstudio.com</a><span class="font-body-sm text-body-sm text-on-surface py-1">Zurich · London · NY</span><div class="inline-flex items-center gap-1.5 mt-space-xs"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span><span class="font-label-caps text-[11px] text-secondary font-semibold">Taking Q2 Slots</span></div></div></div><div class="flex flex-col gap-space-xs pt-space-xs"><span class="font-label-caps text-label-caps text-on-surface uppercase">Studio Dispatch</span><p class="font-body-sm text-body-sm text-on-surface-variant">Engineering insights, design teardowns, and design-system releases.</p><form class="flex items-center gap-space-xs mt-space-xs" onsubmit="return false;"><input class="flex-1 h-11 px-space-sm rounded-lg bg-surface font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-secondary/40" placeholder="Enter your business email" type="email"/><button class="h-11 px-space-md rounded-full bg-primary text-on-primary font-label-button text-label-button hover:bg-inverse-surface transition-colors shrink-0" type="submit">Join</button></form></div><div class="pt-space-md flex flex-col gap-1 items-center text-center"><p class="font-label-caps text-[11px] text-on-surface-variant">© 2025 FSD Web Studio. All rights reserved.</p><p class="font-label-caps text-[10px] text-outline uppercase tracking-wider">Bespoke Digital Architecture</p></div></div></footer></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_-2px_16px_rgba(0,0,0,0.06)]" data-active-classes="text-secondary font-semibold"><div class="max-w-md mx-auto px-margin-sm py-2 flex items-center justify-between gap-space-sm"><div class="flex items-center gap-1"><a class="flex flex-col items-center justify-center min-w-[54px] h-12 rounded-xl text-on-surface-variant hover:text-on-surface transition-colors" data-path="home" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-label-caps text-[10px] mt-0.5">Home</span></a><a class="flex flex-col items-center justify-center min-w-[54px] h-12 rounded-xl text-on-surface-variant hover:text-on-surface transition-colors" data-path="services" href="#"><span class="material-symbols-outlined text-[20px]">layers</span><span class="font-label-caps text-[10px] mt-0.5">Services</span></a><a aria-current="page" class="flex flex-col items-center justify-center min-w-[54px] h-12 rounded-xl transition-colors text-secondary font-semibold" data-path="portfolio" href="#"><span class="material-symbols-outlined text-[20px]">view_carousel</span><span class="font-label-caps text-[10px] mt-0.5">Works</span></a></div><div class="flex items-center gap-2 shrink-0"><a aria-label="Direct WhatsApp Inquiry" class="w-11 h-11 rounded-full bg-secondary-container/50 hover:bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm transition-all" href="https://wa.me/" rel="noopener" target="_blank"><span class="material-symbols-outlined text-[22px]">chat</span></a><a class="h-11 px-4 rounded-full bg-secondary text-on-secondary font-label-button text-label-button inline-flex items-center gap-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] hover:opacity-95 transition-opacity" data-path="contact-us" href="#"><span class="whitespace-nowrap">Start Project</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a></div></div></nav></body></html>
