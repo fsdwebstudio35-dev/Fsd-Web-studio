@@ -3,7 +3,7 @@ import { ArrowRight, Menu, X } from 'lucide-react';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react';
 import { STUDIO_CONFIG } from '../config/studioConfig';
 import { PageId } from '../types';
-import { EASE_AGENCY, MagneticButton } from './MotionSystem';
+import { EASE_AGENCY, LetterReveal, MagneticButton } from './MotionSystem';
 
 interface NavbarProps {
   currentPage: PageId;
@@ -69,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
             <rect x="19.5" y="18.5" width="4" height="4.5" rx="1" fill="#B9F6CA" />
           </motion.svg>
           <span className="font-display font-bold text-[17px] tracking-tight text-[#101B16] whitespace-nowrap shrink-0">
-            {STUDIO_CONFIG.brandName}
+            <LetterReveal text={STUDIO_CONFIG.brandName} trigger="mount" stagger={0.018} />
           </span>
         </motion.button>
 
@@ -88,7 +88,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
                     : 'text-[#101B16]/65 hover:text-[#101B16]'
                 }`}
               >
-                <span>{link.label}</span>
+                <LetterReveal text={link.label} trigger="mount" stagger={0.022} />
 
                 {/* Hover underline for inactive items */}
                 {!isActive && (
@@ -119,7 +119,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
             onClick={() => handleSelect('contact')}
             className="group hidden md:inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-[#101B16] bg-[#B9F6CA] hover:bg-[#9ef0b5] rounded-full border border-[#101B16]/10 shadow-sm hover:shadow-[0_6px_18px_rgba(185,246,202,0.55)] transition-all duration-200 whitespace-nowrap shrink-0 cursor-pointer"
           >
-            <span>Let&apos;s Talk</span>
+            <LetterReveal text="Let's Talk" trigger="mount" stagger={0.022} />
             <ArrowRight
               className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
               aria-hidden="true"

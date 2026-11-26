@@ -11,9 +11,15 @@ import {
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { buildWhatsAppUrl, STUDIO_CONFIG } from '../config/studioConfig';
-import { SERVICE_CONTACT_PROFILES, SERVICES } from '../data/studioData';
+import {
+  SERVICE_CONTACT_PROFILES,
+  SERVICES,
+  STUDIO_IMAGES,
+} from '../data/studioData';
+import { ImageWithFallback } from '../components/ImageWithFallback';
 import {
   EASE_AGENCY,
+  LetterReveal,
   MagneticButton,
   MagneticLink,
   Reveal,
@@ -76,6 +82,12 @@ export const ContactPage: React.FC<ContactPageProps> = ({
   const activeProfile =
     SERVICE_CONTACT_PROFILES[values.projectType] ??
     SERVICE_CONTACT_PROFILES[SERVICES[0].title];
+
+  const activeServiceItem = SERVICES.find(
+    (s) => s.title === activeProfile.serviceTitle
+  );
+  const activeServiceImage =
+    activeServiceItem?.image || STUDIO_IMAGES.aboutWorkspace;
 
   const selectService = (serviceTitle: string) => {
     const profile =
@@ -248,36 +260,78 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                         className="absolute inset-0 bg-[#101B16] rounded-full"
                       />
                     )}
-                    <span className="relative z-10">{title}</span>
+                    <span className="relative z-10">
+                      <LetterReveal text={title} trigger="mount" />
+                    </span>
                   </button>
                 );
               })}
             </div>
           </div>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeProfile.serviceTitle}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.24, ease: EASE_AGENCY }}
-              className="max-w-3xl"
-            >
-              <p className="text-xs font-bold uppercase tracking-wider text-[#101B16]/65 mb-2">
-                {activeProfile.kicker}
-              </p>
-              <h1
-                className="font-display font-extrabold text-[#101B16] tracking-tight leading-[1.08] text-balance"
-                style={{ fontSize: 'clamp(2.2rem, 4vw, 3.25rem)' }}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeProfile.serviceTitle}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.24, ease: EASE_AGENCY }}
+                className="lg:col-span-7"
               >
-                {activeProfile.headline}
-              </h1>
-              <p className="mt-4 text-base sm:text-lg text-[#101B16]/75 leading-relaxed">
-                {activeProfile.subheadline}
-              </p>
-            </motion.div>
-          </AnimatePresence>
+                <p className="text-xs font-bold uppercase tracking-wider text-[#101B16]/65 mb-2">
+                  <LetterReveal text={activeProfile.kicker} trigger="mount" />
+                </p>
+                <h1
+                  className="font-display font-extrabold text-[#101B16] tracking-tight leading-[1.08] text-balance"
+                  style={{ fontSize: 'clamp(2.2rem, 4vw, 3.25rem)' }}
+                >
+                  <LetterReveal
+                    text={activeProfile.headline}
+                    trigger="mount"
+                    delay={0.04}
+                    stagger={0.018}
+                  />
+                </h1>
+                <p className="mt-4 text-base sm:text-lg text-[#101B16]/75 leading-relaxed">
+                  <LetterReveal text={activeProfile.subheadline} trigger="mount" delay={0.18} />
+                </p>
+              </motion.div>
+            </AnimatePresence>
+
+            <div className="lg:col-span-5">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeProfile.serviceTitle}
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.25, ease: EASE_AGENCY }}
+                  className="group relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-[#101B16] border border-[#101B16]/10 shadow-md"
+                >
+                  <ImageWithFallback
+                    src={activeServiceImage}
+                    alt={`${activeProfile.serviceTitle} project preview`}
+                    loading="eager"
+                    fallbackTitle={activeProfile.serviceTitle}
+                    className="w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-[#101B16]/80 via-[#101B16]/20 to-transparent"
+                  />
+                  <div className="absolute bottom-3.5 left-4 right-4 flex items-center justify-between gap-2 text-white">
+                    <span className="font-display font-bold text-sm">
+                      {activeProfile.serviceTitle}
+                    </span>
+                    <span className="text-xs font-semibold text-[#B9F6CA]">
+                      {activeProfile.budgetOptions[1] ?? activeProfile.budgetOptions[0]}
+                    </span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -404,7 +458,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                     >
                       <div className="pb-4 border-b border-[#101B16]/10 flex items-center justify-between gap-4">
                         <h2 className="font-display font-bold text-xl sm:text-2xl text-[#101B16]">
-                          {activeProfile.formHeading}
+                          <LetterReveal text={activeProfile.formHeading} trigger="mount" />
                         </h2>
                         <span className="text-xs text-[#101B16]/55 whitespace-nowrap">
                           * Required
@@ -734,10 +788,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                   className="rounded-2xl bg-white border border-[#101B16]/10 p-6 sm:p-7 space-y-4 shadow-[0_4px_20px_rgba(16,27,22,0.03)] hover:shadow-[0_14px_30px_rgba(16,27,22,0.07)] transition-shadow"
                 >
                   <p className="text-xs font-bold uppercase tracking-wider text-[#101B16]/60">
-                    {activeProfile.serviceTitle} Scope
+                    <LetterReveal text={`${activeProfile.serviceTitle} Scope`} trigger="mount" />
                   </p>
                   <h3 className="font-display font-bold text-xl text-[#101B16]">
-                    Included in This Service
+                    <LetterReveal text="Included in This Service" trigger="mount" />
                   </h3>
                   <ul className="space-y-3">
                     {activeProfile.includedHighlights.map((item) => (
@@ -748,7 +802,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                         <span className="w-5 h-5 rounded-full bg-[#B9F6CA] text-[#101B16] flex items-center justify-center shrink-0 mt-0.5">
                           <Check className="w-3 h-3" aria-hidden="true" />
                         </span>
-                        <span>{item}</span>
+                        <LetterReveal text={item} trigger="mount" />
                       </li>
                     ))}
                   </ul>
@@ -758,33 +812,44 @@ export const ContactPage: React.FC<ContactPageProps> = ({
               <motion.div
                 whileHover={isFine ? { y: -3 } : undefined}
                 transition={{ duration: 0.22, ease: EASE_AGENCY }}
-                className="rounded-2xl bg-[#101B16] text-white p-6 sm:p-7 space-y-4 shadow-[0_8px_28px_rgba(16,27,22,0.12)]"
+                className="relative overflow-hidden rounded-2xl bg-[#101B16] text-white p-6 sm:p-7 space-y-4 shadow-[0_8px_28px_rgba(16,27,22,0.12)]"
               >
-                <p className="text-xs font-bold uppercase tracking-wider text-[#B9F6CA]">
-                  WhatsApp Consultation
-                </p>
-                <h3 className="font-display font-bold text-xl">
-                  Chat Directly With {STUDIO_CONFIG.brandName}
-                </h3>
-                <p className="text-sm text-white/75 leading-relaxed">
-                  {activeProfile.whatsappPitch}
-                </p>
-                <MagneticLink
-                  href={directWhatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group h-11 px-5 rounded-full bg-[#B9F6CA] hover:bg-[#9ef0b5] text-[#101B16] text-sm font-bold inline-flex items-center justify-center gap-2 transition-colors w-full"
-                >
-                  <MessageCircle className="w-4 h-4" aria-hidden="true" />
-                  <span>Chat on WhatsApp</span>
-                  <ArrowUpRight
-                    className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    aria-hidden="true"
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+                  <ImageWithFallback
+                    src={STUDIO_IMAGES.ctaBackdrop}
+                    alt=""
+                    className="w-full h-full object-cover opacity-25"
                   />
-                </MagneticLink>
-                <p className="text-xs text-white/60 tabular-nums">
-                  {STUDIO_CONFIG.whatsappDisplay}
-                </p>
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#101B16]/94 via-[#101B16]/88 to-[#101B16]/94" />
+                </div>
+
+                <div className="relative space-y-4">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#B9F6CA]">
+                    <LetterReveal text="WhatsApp Consultation" />
+                  </p>
+                  <h3 className="font-display font-bold text-xl">
+                    <LetterReveal text={`Chat Directly With ${STUDIO_CONFIG.brandName}`} />
+                  </h3>
+                  <p className="text-sm text-white/80 leading-relaxed">
+                    <LetterReveal text={activeProfile.whatsappPitch} />
+                  </p>
+                  <MagneticLink
+                    href={directWhatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group h-11 px-5 rounded-full bg-[#B9F6CA] hover:bg-[#9ef0b5] text-[#101B16] text-sm font-bold inline-flex items-center justify-center gap-2 transition-colors w-full"
+                  >
+                    <MessageCircle className="w-4 h-4" aria-hidden="true" />
+                    <LetterReveal text="Chat on WhatsApp" />
+                    <ArrowUpRight
+                      className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      aria-hidden="true"
+                    />
+                  </MagneticLink>
+                  <p className="text-xs text-white/70 tabular-nums">
+                    {STUDIO_CONFIG.whatsappDisplay}
+                  </p>
+                </div>
               </motion.div>
 
               <motion.div
@@ -793,7 +858,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                 className="rounded-2xl bg-white border border-[#101B16]/10 p-6 sm:p-7 space-y-3 shadow-[0_4px_20px_rgba(16,27,22,0.03)] hover:shadow-[0_14px_30px_rgba(16,27,22,0.07)] transition-shadow"
               >
                 <p className="text-xs font-bold uppercase tracking-wider text-[#101B16]/60">
-                  Email Inquiry
+                  <LetterReveal text="Email Inquiry" />
                 </p>
                 <a
                   href={`mailto:${STUDIO_CONFIG.email}?subject=${encodeURIComponent(
@@ -812,7 +877,9 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                     aria-hidden="true"
                   />
                 </a>
-                <p className="text-xs text-[#101B16]/60">{STUDIO_CONFIG.hours}</p>
+                <p className="text-xs text-[#101B16]/60">
+                  <LetterReveal text={STUDIO_CONFIG.hours} />
+                </p>
               </motion.div>
             </Reveal>
           </div>

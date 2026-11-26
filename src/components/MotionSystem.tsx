@@ -208,6 +208,105 @@ export const LineReveal: React.FC<LineRevealProps> = ({
   );
 };
 
+interface LetterRevealProps {
+  text: string;
+  className?: string;
+  letterClassName?: string;
+  delay?: number;
+  stagger?: number;
+  duration?: number;
+  yOffset?: number;
+  trigger?: 'view' | 'mount';
+  hoverLetter?: boolean;
+}
+
+export const LetterReveal: React.FC<LetterRevealProps> = ({
+  text,
+  className = '',
+  letterClassName = '',
+  delay = 0,
+  stagger,
+  duration = 0.38,
+  yOffset = 14,
+  trigger = 'view',
+  hoverLetter = true,
+}) => {
+  const prefersReduced = useReducedMotion();
+  const isFine = useIsFinePointer();
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const inView = useInView(ref, { once: true, amount: 0.12 });
+
+  const nonSpaceCount = text.replace(/\s+/g, '').length;
+  const effectiveStagger =
+    stagger ?? Math.min(0.022, Math.max(0.0035, 0.42 / Math.max(nonSpaceCount, 1)));
+
+  const tokens = text.split(/(\s+)/);
+  const shouldAnimate = trigger === 'mount' ? true : inView;
+  const enableHover = hoverLetter && isFine && !prefersReduced;
+
+  if (prefersReduced) {
+    return <span className={className}>{text}</span>;
+  }
+
+  let charIndex = 0;
+
+  return (
+    <span ref={ref} aria-label={text} className={`inline ${className}`}>
+      {tokens.map((token, tokenIdx) => {
+        if (!token) return null;
+        if (/^\s+$/.test(token)) {
+          return (
+            <span key={`sp-${tokenIdx}`} aria-hidden="true">
+              {token}
+            </span>
+          );
+        }
+
+        const chars = Array.from(token);
+        return (
+          <span
+            key={`wd-${tokenIdx}`}
+            aria-hidden="true"
+            className="inline-block whitespace-nowrap"
+          >
+            {chars.map((char, cIdx) => {
+              const currentIdx = charIndex++;
+              return (
+                <motion.span
+                  key={`ch-${tokenIdx}-${cIdx}`}
+                  initial={{ opacity: 0, y: yOffset, rotateX: 28 }}
+                  animate={
+                    shouldAnimate
+                      ? { opacity: 1, y: 0, rotateX: 0 }
+                      : { opacity: 0, y: yOffset, rotateX: 28 }
+                  }
+                  whileHover={
+                    enableHover
+                      ? {
+                          y: -3,
+                          scale: 1.12,
+                          transition: { type: 'spring', stiffness: 460, damping: 18 },
+                        }
+                      : undefined
+                  }
+                  transition={{
+                    duration,
+                    delay: delay + currentIdx * effectiveStagger,
+                    ease: EASE_AGENCY,
+                  }}
+                  className={`inline-block will-change-transform ${letterClassName}`}
+                >
+                  {char}
+                </motion.span>
+              );
+            })}
+          </span>
+        );
+      })}
+    </span>
+  );
+};
+
 interface MagneticButtonProps {
   children: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;

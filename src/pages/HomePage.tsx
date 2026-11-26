@@ -13,6 +13,7 @@ import {
   PROCESS_STEPS,
   SAMPLE_TESTIMONIALS,
   SERVICES,
+  STUDIO_IMAGES,
   WHY_CHOOSE_US,
 } from '../data/studioData';
 import { PageId, PortfolioProject, TeamMember } from '../types';
@@ -21,9 +22,10 @@ import { PortfolioShowcase } from '../components/PortfolioShowcase';
 import { ReasonIcon, ServiceIcon } from '../components/ServiceIcon';
 import { AdminAuthStatus } from '../components/TeamAdminPanel';
 import { TeamSection } from '../components/TeamSection';
+import { WelcomeTeamSection } from '../components/WelcomeTeamSection';
 import {
   EASE_AGENCY,
-  LineReveal,
+  LetterReveal,
   MagneticButton,
   MagneticLink,
   Reveal,
@@ -167,20 +169,33 @@ export const HomePage: React.FC<HomePageProps> = ({
                 transition={{ duration: 0.45, ease: EASE_AGENCY }}
                 className="text-sm font-bold text-[#101B16]/70 mb-4"
               >
-                {STUDIO_CONFIG.brandName} · {STUDIO_CONFIG.tagline}
+                <LetterReveal
+                  text={`${STUDIO_CONFIG.brandName} · ${STUDIO_CONFIG.tagline}`}
+                  trigger="mount"
+                  delay={0.02}
+                />
               </motion.p>
 
               <h1
                 className="font-display font-extrabold text-[#101B16] tracking-tight leading-[1.06] text-balance"
                 style={{ fontSize: 'clamp(2.35rem, 4.2vw, 3.75rem)' }}
               >
-                <LineReveal
-                  lines={[
-                    'We build digital experiences',
-                    'that grow your business.',
-                  ]}
-                  baseDelay={0.08}
-                />
+                <span className="block">
+                  <LetterReveal
+                    text="We build digital experiences"
+                    trigger="mount"
+                    delay={0.08}
+                    stagger={0.02}
+                  />
+                </span>
+                <span className="block">
+                  <LetterReveal
+                    text="that grow your business."
+                    trigger="mount"
+                    delay={0.32}
+                    stagger={0.02}
+                  />
+                </span>
               </h1>
 
               <motion.p
@@ -189,8 +204,11 @@ export const HomePage: React.FC<HomePageProps> = ({
                 transition={{ duration: 0.55, delay: 0.24, ease: EASE_AGENCY }}
                 className="mt-5 text-base sm:text-lg text-[#101B16]/75 leading-relaxed max-w-xl"
               >
-                We turn ideas into powerful websites, digital products and experiences
-                that help your business move forward.
+                <LetterReveal
+                  text="We turn ideas into powerful websites, digital products and experiences that help your business move forward."
+                  trigger="mount"
+                  delay={0.36}
+                />
               </motion.p>
 
               <motion.div
@@ -204,7 +222,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   onClick={() => onNavigate('contact')}
                   className="group inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-bold text-[#101B16] bg-[#B9F6CA] hover:bg-[#9ef0b5] rounded-full border border-[#101B16]/10 shadow-sm hover:shadow-[0_10px_26px_rgba(185,246,202,0.55)] transition-all duration-200 whitespace-nowrap shrink-0 cursor-pointer"
                 >
-                  <span>Start a Project</span>
+                  <LetterReveal text="Start a Project" trigger="mount" stagger={0.02} />
                   <ArrowRight
                     className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
                     aria-hidden="true"
@@ -216,7 +234,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   onClick={() => onNavigate('portfolio')}
                   className="group inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-bold text-[#101B16] bg-[#F4F6F4] hover:bg-[#101B16] hover:text-white rounded-full transition-colors duration-200 whitespace-nowrap shrink-0 cursor-pointer"
                 >
-                  <span>Explore Our Work</span>
+                  <LetterReveal text="Explore Our Work" trigger="mount" stagger={0.02} />
                   <ArrowUpRight
                     className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                     aria-hidden="true"
@@ -233,12 +251,13 @@ export const HomePage: React.FC<HomePageProps> = ({
               style={{ y: visualParallaxY }}
               className="lg:col-span-6 flex"
             >
-              <div className="relative w-full min-h-[360px] sm:min-h-[420px] lg:h-full rounded-3xl overflow-hidden bg-gradient-to-br from-[#101B16] via-[#15281f] to-[#0b1410] p-5 sm:p-8 flex items-center justify-center shadow-[0_20px_50px_rgba(16,27,22,0.14)]">
+              <div className="relative w-full min-h-[380px] sm:min-h-[440px] lg:h-full rounded-3xl overflow-hidden bg-gradient-to-br from-[#101B16] via-[#15281f] to-[#0b1410] p-5 sm:p-8 flex items-center justify-center shadow-[0_20px_50px_rgba(16,27,22,0.14)]">
                 {/* 3D Green Render Backdrop */}
                 <div className="absolute inset-0">
                   <ImageWithFallback
                     src={HERO_3D_IMAGE}
                     alt="Abstract 3D deep forest green and lime green architectural geometry"
+                    loading="eager"
                     className="w-full h-full object-cover opacity-85"
                   />
                   <div
@@ -268,7 +287,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     ease: 'easeInOut',
                   }}
                   whileHover={isFine ? { y: -4, scale: 1.015 } : undefined}
-                  className="relative z-10 w-full max-w-[420px] rounded-2xl bg-white/95 backdrop-blur-md border border-white/40 shadow-2xl overflow-hidden"
+                  className="group relative z-10 w-full max-w-[430px] rounded-2xl bg-white/95 backdrop-blur-md border border-white/40 shadow-2xl overflow-hidden"
                 >
                   <div className="px-4 py-2.5 bg-[#F4F6F4] border-b border-[#101B16]/10 flex items-center justify-between">
                     <span className="font-mono text-[11px] text-[#101B16]/60 truncate">
@@ -279,18 +298,30 @@ export const HomePage: React.FC<HomePageProps> = ({
                     </span>
                   </div>
 
-                  <div className="p-5 sm:p-6 space-y-4">
-                    <div className="space-y-1.5">
-                      <p className="text-[11px] font-bold uppercase tracking-wider text-[#101B16]/60">
-                        Digital Product Architecture
+                  <div className="p-4 sm:p-5 space-y-3.5">
+                    <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-[#101B16] border border-[#101B16]/10">
+                      <ImageWithFallback
+                        src={STUDIO_IMAGES.heroMockupPreview}
+                        alt="Modern web architecture preview on clean studio display"
+                        loading="eager"
+                        fallbackTitle="FSD Web Studio"
+                        className="w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+                      />
+                      <div
+                        aria-hidden="true"
+                        className="absolute inset-0 bg-gradient-to-t from-[#101B16]/65 via-transparent to-transparent"
+                      />
+                      <p className="absolute bottom-2.5 left-3 right-3 text-[11px] font-semibold text-white">
+                        Digital Product Architecture · Responsive Engineering
                       </p>
-                      <h2 className="font-display font-extrabold text-lg sm:text-xl text-[#101B16] leading-snug">
-                        Fast, minimal interfaces crafted to convert.
-                      </h2>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="p-3 rounded-xl bg-[#F4F6F4] transition-colors hover:bg-[#e9eee9]">
+                    <h2 className="font-display font-extrabold text-base sm:text-lg text-[#101B16] leading-snug">
+                      <LetterReveal text="Fast, minimal interfaces crafted to convert." trigger="mount" delay={0.3} />
+                    </h2>
+
+                    <div className="grid grid-cols-2 gap-2.5">
+                      <div className="p-2.5 rounded-xl bg-[#F4F6F4] transition-colors hover:bg-[#e9eee9]">
                         <div className="text-xs font-bold text-[#101B16]">
                           Mobile-First
                         </div>
@@ -298,7 +329,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                           Responsive layout
                         </div>
                       </div>
-                      <div className="p-3 rounded-xl bg-[#B9F6CA] transition-colors hover:bg-[#a6f2bc]">
+                      <div className="p-2.5 rounded-xl bg-[#B9F6CA] transition-colors hover:bg-[#a6f2bc]">
                         <div className="text-xs font-bold text-[#101B16]">
                           Custom Code
                         </div>
@@ -319,7 +350,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     ease: 'easeInOut',
                     delay: 0.4,
                   }}
-                  className="hidden sm:flex flex-col z-20 absolute bottom-5 right-5 w-44 rounded-2xl bg-[#101B16]/95 backdrop-blur-md border border-[#B9F6CA]/35 p-3.5 shadow-xl text-white"
+                  className="hidden sm:flex flex-col z-20 absolute bottom-4 right-4 w-44 rounded-2xl bg-[#101B16]/95 backdrop-blur-md border border-[#B9F6CA]/35 p-3.5 shadow-xl text-white"
                 >
                   <div className="text-[10px] font-semibold text-[#B9F6CA]">
                     Mobile Viewport
@@ -366,7 +397,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 2. SERVICES SECTION (Soft Gray #F4F6F4 — 3D Tilt Cards) */}
+      {/* 2. SERVICES SECTION (Soft Gray #F4F6F4 — Visual 3D Tilt Cards) */}
       <section
         ref={servicesSectionRef}
         className="py-16 lg:py-24 bg-[#F4F6F4] border-b border-[#101B16]/10"
@@ -375,10 +406,10 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <Reveal direction="up" className="max-w-2xl">
               <p className="text-xs font-bold uppercase tracking-wider text-[#101B16]/65 mb-2">
-                Our Services
+                <LetterReveal text="Our Services" />
               </p>
               <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-[#101B16] tracking-tight text-balance">
-                Focused digital capabilities built around business growth.
+                <LetterReveal text="Focused digital capabilities built around business growth." />
               </h2>
             </Reveal>
 
@@ -403,28 +434,41 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <TiltCard
                   maxTilt={6}
                   liftY={-6}
-                  className="group h-full bg-white rounded-2xl border border-[#101B16]/8 hover:border-[#101B16]/25 p-6 shadow-[0_4px_20px_rgba(16,27,22,0.04)] hover:shadow-[0_18px_36px_rgba(16,27,22,0.1)] transition-[border-color,box-shadow] duration-300"
+                  className="group h-full bg-white rounded-2xl border border-[#101B16]/8 hover:border-[#101B16]/25 p-4 sm:p-5 shadow-[0_4px_20px_rgba(16,27,22,0.04)] hover:shadow-[0_18px_36px_rgba(16,27,22,0.1)] transition-[border-color,box-shadow] duration-300"
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-3 mb-5">
-                      <div className="w-11 h-11 rounded-xl bg-[#101B16] text-[#B9F6CA] flex items-center justify-center group-hover:bg-[#B9F6CA] group-hover:text-[#101B16] group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 ease-out">
-                        <ServiceIcon name={service.iconName} className="w-5 h-5" />
+                    {/* Visual Header with Smooth Zoom & Icon Overlay */}
+                    <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden bg-[#101B16] mb-4">
+                      <ImageWithFallback
+                        src={service.image}
+                        alt={`${service.title} visual showcase by FSD Web Studio`}
+                        fallbackTitle={service.title}
+                        className="w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+                      />
+                      <div
+                        aria-hidden="true"
+                        className="absolute inset-0 bg-gradient-to-t from-[#101B16]/75 via-[#101B16]/15 to-transparent"
+                      />
+                      <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between gap-2">
+                        <div className="w-9 h-9 rounded-lg bg-[#101B16]/90 text-[#B9F6CA] border border-[#B9F6CA]/30 flex items-center justify-center group-hover:bg-[#B9F6CA] group-hover:text-[#101B16] group-hover:scale-105 transition-all duration-300 ease-out">
+                          <ServiceIcon name={service.iconName} className="w-4 h-4" />
+                        </div>
+                        <span className="font-mono text-xs font-semibold text-white/90 tabular-nums drop-shadow-sm">
+                          {service.index}
+                        </span>
                       </div>
-                      <span className="font-mono text-xs font-medium text-[#101B16]/45 tabular-nums group-hover:text-[#101B16]/75 transition-colors">
-                        {service.index}
-                      </span>
                     </div>
 
                     <h3 className="font-display font-bold text-lg text-[#101B16] transition-transform duration-200 group-hover:translate-x-0.5">
-                      {service.title}
+                      <LetterReveal text={service.title} />
                     </h3>
 
-                    <p className="mt-2.5 text-sm text-[#101B16]/70 leading-relaxed">
-                      {service.description}
+                    <p className="mt-2 text-sm text-[#101B16]/70 leading-relaxed">
+                      <LetterReveal text={service.description} />
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-[#101B16]/8">
+                  <div className="mt-5 pt-4 border-t border-[#101B16]/8">
                     <button
                       type="button"
                       onClick={() => onNavigate('contact', service.title)}
@@ -444,8 +488,17 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 3. ABOUT STUDIO INTRO (Deep Forest Green #101B16) */}
+      {/* 3. ABOUT STUDIO INTRO (Deep Forest Green #101B16 with Studio Photography) */}
       <section className="relative overflow-hidden py-16 lg:py-24 bg-[#101B16] text-white">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          <ImageWithFallback
+            src={STUDIO_IMAGES.ctaBackdrop}
+            alt=""
+            className="w-full h-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#101B16]/95 via-[#101B16]/88 to-[#0b1410]/95" />
+        </div>
+
         <motion.div
           aria-hidden="true"
           animate={
@@ -461,13 +514,13 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             <Reveal direction="right" className="lg:col-span-6 space-y-5">
               <p className="text-xs font-bold uppercase tracking-wider text-[#B9F6CA]">
-                About FSD Web Studio
+                <LetterReveal text="About FSD Web Studio" />
               </p>
               <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1] text-balance">
-                {ABOUT_CONTENT.title}
+                <LetterReveal text={ABOUT_CONTENT.title} />
               </h2>
               <p className="text-base text-white/80 leading-relaxed">
-                {ABOUT_CONTENT.whoWeAre}
+                <LetterReveal text={ABOUT_CONTENT.whoWeAre} />
               </p>
               <div className="pt-2">
                 <MagneticButton
@@ -475,7 +528,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   onClick={() => onNavigate('about')}
                   className="group inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-[#101B16] bg-[#B9F6CA] hover:bg-[#9ef0b5] rounded-full shadow-sm hover:shadow-[0_10px_24px_rgba(185,246,202,0.3)] transition-all duration-200 whitespace-nowrap cursor-pointer"
                 >
-                  <span>About Our Studio</span>
+                  <LetterReveal text="About Our Studio" />
                   <ArrowRight
                     className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
                     aria-hidden="true"
@@ -484,40 +537,69 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </Reveal>
 
-            <RevealStagger
-              stagger={0.1}
-              className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-5"
-            >
-              <RevealItem direction="left">
+            <div className="lg:col-span-6 space-y-5">
+              <Reveal direction="left">
                 <motion.div
-                  whileHover={isFine ? { y: -4 } : undefined}
-                  transition={{ duration: 0.22, ease: EASE_AGENCY }}
-                  className="h-full p-6 rounded-2xl bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-[#B9F6CA]/35 space-y-2.5 transition-colors duration-200"
+                  whileHover={isFine ? { scale: 1.015 } : undefined}
+                  transition={{ duration: 0.3, ease: EASE_AGENCY }}
+                  className="group relative aspect-[16/9] w-full rounded-2xl overflow-hidden border border-white/15 bg-[#0b1410] shadow-xl"
                 >
-                  <h3 className="font-display font-bold text-lg text-[#B9F6CA]">
-                    Our Mission
-                  </h3>
-                  <p className="text-sm text-white/75 leading-relaxed">
-                    {ABOUT_CONTENT.mission}
-                  </p>
+                  <ImageWithFallback
+                    src={STUDIO_IMAGES.aboutWorkspace}
+                    alt="Minimalist architectural studio workspace at FSD Web Studio"
+                    fallbackTitle="FSD Web Studio Workspace"
+                    className="w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-[#101B16]/80 via-[#101B16]/20 to-transparent"
+                  />
+                  <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between gap-3">
+                    <span className="font-display font-bold text-sm text-white">
+                      Design &amp; Engineering Studio
+                    </span>
+                    <span className="text-xs font-semibold text-[#B9F6CA]">
+                      Built for Lasting Clarity
+                    </span>
+                  </div>
                 </motion.div>
-              </RevealItem>
+              </Reveal>
 
-              <RevealItem direction="left">
-                <motion.div
-                  whileHover={isFine ? { y: -4 } : undefined}
-                  transition={{ duration: 0.22, ease: EASE_AGENCY }}
-                  className="h-full p-6 rounded-2xl bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-[#B9F6CA]/35 space-y-2.5 transition-colors duration-200"
-                >
-                  <h3 className="font-display font-bold text-lg text-[#B9F6CA]">
-                    Our Vision
-                  </h3>
-                  <p className="text-sm text-white/75 leading-relaxed">
-                    {ABOUT_CONTENT.vision}
-                  </p>
-                </motion.div>
-              </RevealItem>
-            </RevealStagger>
+              <RevealStagger
+                stagger={0.1}
+                className="grid grid-cols-1 sm:grid-cols-2 gap-5"
+              >
+                <RevealItem direction="left">
+                  <motion.div
+                    whileHover={isFine ? { y: -4 } : undefined}
+                    transition={{ duration: 0.22, ease: EASE_AGENCY }}
+                    className="h-full p-6 rounded-2xl bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-[#B9F6CA]/35 space-y-2.5 transition-colors duration-200"
+                  >
+                    <h3 className="font-display font-bold text-lg text-[#B9F6CA]">
+                      <LetterReveal text="Our Mission" />
+                    </h3>
+                    <p className="text-sm text-white/75 leading-relaxed">
+                      <LetterReveal text={ABOUT_CONTENT.mission} />
+                    </p>
+                  </motion.div>
+                </RevealItem>
+
+                <RevealItem direction="left">
+                  <motion.div
+                    whileHover={isFine ? { y: -4 } : undefined}
+                    transition={{ duration: 0.22, ease: EASE_AGENCY }}
+                    className="h-full p-6 rounded-2xl bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-[#B9F6CA]/35 space-y-2.5 transition-colors duration-200"
+                  >
+                    <h3 className="font-display font-bold text-lg text-[#B9F6CA]">
+                      <LetterReveal text="Our Vision" />
+                    </h3>
+                    <p className="text-sm text-white/75 leading-relaxed">
+                      <LetterReveal text={ABOUT_CONTENT.vision} />
+                    </p>
+                  </motion.div>
+                </RevealItem>
+              </RevealStagger>
+            </div>
           </div>
         </div>
       </section>
@@ -535,8 +617,17 @@ export const HomePage: React.FC<HomePageProps> = ({
         onResetProjects={onResetProjects}
       />
 
-      {/* 5. OUR PROCESS (Deep Forest Green #101B16) */}
+      {/* 5. OUR PROCESS (Deep Forest Green #101B16 with Stage Photography) */}
       <section className="relative overflow-hidden py-16 lg:py-24 bg-[#101B16] text-white">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          <ImageWithFallback
+            src={STUDIO_IMAGES.ctaBackdrop}
+            alt=""
+            className="w-full h-full object-cover opacity-15"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#101B16]/95 via-[#101B16]/90 to-[#101B16]/95" />
+        </div>
+
         <motion.div
           aria-hidden="true"
           animate={
@@ -551,10 +642,10 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal direction="up" className="max-w-2xl mb-12">
             <p className="text-xs font-bold uppercase tracking-wider text-[#B9F6CA] mb-2">
-              Our Process
+              <LetterReveal text="Our Process" />
             </p>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl tracking-tight text-balance">
-              Four clear stages from idea to live launch.
+              <LetterReveal text="Four clear stages from idea to live launch." />
             </h2>
           </Reveal>
 
@@ -564,22 +655,35 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <motion.div
                   whileHover={isFine ? { y: -5 } : undefined}
                   transition={{ duration: 0.22, ease: EASE_AGENCY }}
-                  className="group h-full rounded-2xl bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-[#B9F6CA]/35 p-6 flex flex-col justify-between transition-colors duration-200"
+                  className="group h-full rounded-2xl bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-[#B9F6CA]/35 p-4 sm:p-5 flex flex-col justify-between transition-colors duration-200"
                 >
                   <div>
-                    <div className="font-display font-extrabold text-3xl text-[#B9F6CA] tabular-nums mb-4 transition-transform duration-200 group-hover:translate-x-1">
-                      {step.number}
+                    <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-[#0b1410] mb-4 border border-white/10">
+                      <ImageWithFallback
+                        src={step.image}
+                        alt={`${step.title} stage at FSD Web Studio`}
+                        fallbackTitle={step.title}
+                        className="w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+                      />
+                      <div
+                        aria-hidden="true"
+                        className="absolute inset-0 bg-gradient-to-t from-[#101B16]/80 via-[#101B16]/20 to-transparent"
+                      />
+                      <div className="absolute bottom-2 left-3 font-display font-extrabold text-2xl text-[#B9F6CA] tabular-nums drop-shadow-sm transition-transform duration-200 group-hover:translate-x-1">
+                        {step.number}
+                      </div>
                     </div>
+
                     <h3 className="font-display font-bold text-xl text-white">
-                      {step.title}
+                      <LetterReveal text={step.title} />
                     </h3>
-                    <p className="mt-2.5 text-sm text-white/75 leading-relaxed">
-                      {step.description}
+                    <p className="mt-2 text-sm text-white/75 leading-relaxed">
+                      <LetterReveal text={step.description} />
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-white/10 text-xs font-semibold text-[#B9F6CA]">
-                    {step.output}
+                  <div className="mt-5 pt-4 border-t border-white/10 text-xs font-semibold text-[#B9F6CA]">
+                    <LetterReveal text={step.output} />
                   </div>
                 </motion.div>
               </RevealItem>
@@ -588,15 +692,15 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 6. WHY CHOOSE US (Soft Gray #F4F6F4) */}
+      {/* 6. WHY CHOOSE US (Soft Gray #F4F6F4 with Editorial Thumbnails) */}
       <section className="py-16 lg:py-24 bg-[#F4F6F4] border-b border-[#101B16]/10">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal direction="up" className="max-w-2xl mb-12">
             <p className="text-xs font-bold uppercase tracking-wider text-[#101B16]/65 mb-2">
-              Why Choose Us
+              <LetterReveal text="Why Choose Us" />
             </p>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-[#101B16] tracking-tight text-balance">
-              Built on clear craft, speed, and direct partnership.
+              <LetterReveal text="Built on clear craft, speed, and direct partnership." />
             </h2>
           </Reveal>
 
@@ -606,16 +710,28 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <motion.div
                   whileHover={isFine ? { y: -4 } : undefined}
                   transition={{ duration: 0.22, ease: EASE_AGENCY }}
-                  className="group h-full bg-white rounded-2xl border border-[#101B16]/8 hover:border-[#101B16]/20 p-6 sm:p-7 shadow-[0_4px_18px_rgba(16,27,22,0.03)] hover:shadow-[0_14px_30px_rgba(16,27,22,0.07)] transition-[border-color,box-shadow] duration-200"
+                  className="group h-full bg-white rounded-2xl border border-[#101B16]/8 hover:border-[#101B16]/20 p-5 sm:p-6 shadow-[0_4px_18px_rgba(16,27,22,0.03)] hover:shadow-[0_14px_30px_rgba(16,27,22,0.07)] transition-[border-color,box-shadow] duration-200"
                 >
-                  <div className="w-11 h-11 rounded-xl bg-[#B9F6CA] text-[#101B16] flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
-                    <ReasonIcon name={item.iconName} className="w-5 h-5" />
+                  <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-[#101B16] mb-5">
+                    <ImageWithFallback
+                      src={item.image}
+                      alt={`${item.title} — FSD Web Studio advantage`}
+                      fallbackTitle={item.title}
+                      className="w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+                    />
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-gradient-to-t from-[#101B16]/65 via-transparent to-transparent"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 w-10 h-10 rounded-xl bg-[#B9F6CA] text-[#101B16] flex items-center justify-center shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
+                      <ReasonIcon name={item.iconName} className="w-5 h-5" />
+                    </div>
                   </div>
                   <h3 className="font-display font-bold text-lg text-[#101B16]">
-                    {item.title}
+                    <LetterReveal text={item.title} />
                   </h3>
                   <p className="mt-2 text-sm text-[#101B16]/70 leading-relaxed">
-                    {item.description}
+                    <LetterReveal text={item.description} />
                   </p>
                 </motion.div>
               </RevealItem>
@@ -624,7 +740,8 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 7. MEET OUR TEAM (White #FFFFFF) */}
+      {/* 7. WELCOME TO THE TEAM + MEET OUR TEAM */}
+      <WelcomeTeamSection />
       <TeamSection
         members={teamMembers}
         isLoading={isLoadingTeam}
@@ -645,22 +762,21 @@ export const HomePage: React.FC<HomePageProps> = ({
         variant="light"
       />
 
-      {/* 8. TESTIMONIALS (Soft Gray #F4F6F4 — Clearly Labeled Samples, Zero Fake Identities) */}
+      {/* 8. TESTIMONIALS (Soft Gray #F4F6F4 — Visual Category Context + Clearly Labeled Samples) */}
       <section className="py-16 lg:py-24 bg-[#F4F6F4] border-b border-[#101B16]/10">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
             <Reveal direction="up" className="max-w-2xl">
               <p className="text-xs font-bold uppercase tracking-wider text-[#101B16]/65 mb-2">
-                Testimonials
+                <LetterReveal text="Testimonials" />
               </p>
               <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-[#101B16] tracking-tight text-balance">
-                Client feedback showcase.
+                <LetterReveal text="Client feedback showcase." />
               </h2>
             </Reveal>
             <Reveal direction="left" delay={0.08}>
               <p className="text-xs text-[#101B16]/60 max-w-sm">
-                Sample preview cards shown below. Verified client reviews are published
-                upon project completion.
+                <LetterReveal text="Sample preview cards shown below. Verified client reviews are published upon project completion." />
               </p>
             </Reveal>
           </div>
@@ -671,23 +787,39 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <motion.blockquote
                   whileHover={isFine ? { y: -4 } : undefined}
                   transition={{ duration: 0.22, ease: EASE_AGENCY }}
-                  className="h-full rounded-2xl bg-white border border-[#101B16]/8 hover:border-[#101B16]/20 p-6 sm:p-7 flex flex-col justify-between shadow-[0_4px_18px_rgba(16,27,22,0.03)] hover:shadow-[0_14px_30px_rgba(16,27,22,0.07)] transition-[border-color,box-shadow] duration-200"
+                  className="group h-full rounded-2xl bg-white border border-[#101B16]/8 hover:border-[#101B16]/20 p-5 sm:p-6 flex flex-col justify-between shadow-[0_4px_18px_rgba(16,27,22,0.03)] hover:shadow-[0_14px_30px_rgba(16,27,22,0.07)] transition-[border-color,box-shadow] duration-200"
                 >
                   <div>
-                    <p className="text-xs font-semibold text-[#101B16]/55 mb-4">
-                      {item.label} · {item.projectCategory}
+                    <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-[#101B16] mb-5">
+                      <ImageWithFallback
+                        src={item.image}
+                        alt={`${item.projectCategory} project showcase preview`}
+                        fallbackTitle={item.projectCategory}
+                        className="w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+                      />
+                      <div
+                        aria-hidden="true"
+                        className="absolute inset-0 bg-gradient-to-t from-[#101B16]/75 via-[#101B16]/15 to-transparent"
+                      />
+                      <p className="absolute bottom-2.5 left-3 right-3 text-xs font-semibold text-white">
+                        <LetterReveal text={`${item.projectCategory} · Sample Preview`} />
+                      </p>
+                    </div>
+
+                    <p className="text-xs font-semibold text-[#101B16]/55 mb-2.5">
+                      <LetterReveal text={item.label} />
                     </p>
                     <p className="text-sm sm:text-base text-[#101B16] font-medium leading-relaxed">
-                      “{item.quote}”
+                      <LetterReveal text={`“${item.quote}”`} />
                     </p>
                   </div>
 
                   <footer className="mt-6 pt-4 border-t border-[#101B16]/10">
                     <div className="font-display font-bold text-sm text-[#101B16]">
-                      {item.authorPlaceholder}
+                      <LetterReveal text={item.authorPlaceholder} />
                     </div>
                     <div className="text-xs text-[#101B16]/65 mt-0.5">
-                      {item.rolePlaceholder}
+                      <LetterReveal text={item.rolePlaceholder} />
                     </div>
                   </footer>
                 </motion.blockquote>
@@ -697,8 +829,17 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 9. FINAL CTA (Deep Forest Green #101B16) */}
+      {/* 9. FINAL CTA (Deep Forest Green #101B16 with Architectural Background) */}
       <section className="relative overflow-hidden py-16 lg:py-24 bg-[#101B16] text-white">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          <ImageWithFallback
+            src={STUDIO_IMAGES.ctaBackdrop}
+            alt=""
+            className="w-full h-full object-cover opacity-35"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#101B16]/94 via-[#101B16]/86 to-[#101B16]/78" />
+        </div>
+
         <motion.div
           aria-hidden="true"
           animate={
@@ -714,14 +855,13 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <Reveal direction="right" className="lg:col-span-8">
               <p className="text-xs font-bold uppercase tracking-wider text-[#B9F6CA] mb-3">
-                Let&apos;s Talk
+                <LetterReveal text="Let's Talk" />
               </p>
               <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-balance">
-                Ready to turn your next idea into a high-performing digital product?
+                <LetterReveal text="Ready to turn your next idea into a high-performing digital product?" />
               </h2>
-              <p className="mt-4 text-base text-white/75 leading-relaxed max-w-2xl">
-                Tell us what you are building or start a direct WhatsApp conversation
-                with FSD Web Studio.
+              <p className="mt-4 text-base text-white/80 leading-relaxed max-w-2xl">
+                <LetterReveal text="Tell us what you are building or start a direct WhatsApp conversation with FSD Web Studio." />
               </p>
             </Reveal>
 
@@ -735,7 +875,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 onClick={() => onNavigate('contact')}
                 className="group inline-flex items-center justify-center gap-2 px-6 py-4 text-sm font-bold text-[#101B16] bg-[#B9F6CA] hover:bg-[#9ef0b5] rounded-full shadow-sm hover:shadow-[0_10px_28px_rgba(185,246,202,0.38)] transition-all duration-200 whitespace-nowrap cursor-pointer"
               >
-                <span>Start a Project</span>
+                <LetterReveal text="Start a Project" />
                 <ArrowRight
                   className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
                   aria-hidden="true"
@@ -752,7 +892,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   className="w-4 h-4 text-[#B9F6CA] transition-transform duration-200 group-hover:scale-110"
                   aria-hidden="true"
                 />
-                <span>Chat on WhatsApp</span>
+                <LetterReveal text="Chat on WhatsApp" />
               </MagneticLink>
             </Reveal>
           </div>

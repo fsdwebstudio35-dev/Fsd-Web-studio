@@ -10,7 +10,7 @@ import {
 import { AnimatePresence, motion } from 'motion/react';
 import { PortfolioCategory, PortfolioProject } from '../types';
 import { ImageWithFallback } from './ImageWithFallback';
-import { EASE_AGENCY, MagneticButton } from './MotionSystem';
+import { EASE_AGENCY, LetterReveal, MagneticButton } from './MotionSystem';
 
 interface ProjectModalProps {
   project: PortfolioProject | null;
@@ -79,13 +79,13 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             <div className="px-5 sm:px-7 py-4 border-b border-[#101B16]/10 flex items-center justify-between gap-4 bg-white">
               <div className="min-w-0">
                 <div className="text-xs font-semibold text-[#101B16]/60">
-                  {project.category}
+                  <LetterReveal text={project.category} trigger="mount" />
                 </div>
                 <h2
                   id="project-modal-title"
                   className="font-display font-bold text-xl sm:text-2xl text-[#101B16] truncate mt-0.5"
                 >
-                  {project.title}
+                  <LetterReveal text={project.title} trigger="mount" />
                 </h2>
               </div>
 
@@ -183,17 +183,17 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
 
                     <div className="space-y-2">
                       <h3 className="font-display font-bold text-lg text-[#101B16]">
-                        Architecture &amp; Approach
+                        <LetterReveal text="Architecture & Approach" trigger="mount" />
                       </h3>
                       <p className="text-sm sm:text-base text-[#101B16]/75 leading-relaxed">
-                        {project.overview}
+                        <LetterReveal text={project.overview} trigger="mount" />
                       </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                       <div>
                         <h4 className="font-display font-bold text-sm text-[#101B16] mb-3">
-                          Key Capabilities
+                          <LetterReveal text="Key Capabilities" trigger="mount" />
                         </h4>
                         <ul className="space-y-2.5">
                           {project.highlights.map((item) => (
@@ -205,7 +205,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                                 className="w-4 h-4 text-[#101B16] shrink-0 mt-0.5"
                                 aria-hidden="true"
                               />
-                              <span>{item}</span>
+                              <LetterReveal text={item} trigger="mount" />
                             </li>
                           ))}
                         </ul>
@@ -214,15 +214,18 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                       <div className="p-5 rounded-2xl bg-[#F4F6F4] flex flex-col justify-between gap-4">
                         <div>
                           <h4 className="font-display font-bold text-sm text-[#101B16] mb-2">
-                            Technology Stack
+                            <LetterReveal text="Technology Stack" trigger="mount" />
                           </h4>
                           <p className="text-sm text-[#101B16]/75">
-                            {project.techStack.join(' · ')}
+                            <LetterReveal text={project.techStack.join(' · ')} trigger="mount" />
                           </p>
                         </div>
                         <div className="pt-3 border-t border-[#101B16]/10">
                           <span className="text-xs font-medium text-[#101B16]/60">
-                            {project.liveDemoUrl ? 'Live Website' : 'Project Status'}
+                            <LetterReveal
+                              text={project.liveDemoUrl ? 'Live Website' : 'Project Status'}
+                              trigger="mount"
+                            />
                           </span>
                           {project.liveDemoUrl ? (
                             <a
@@ -236,7 +239,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                             </a>
                           ) : (
                             <div className="text-xs font-medium text-[#101B16]/75 mt-0.5">
-                              Sample preview — add a live URL in Portfolio Manager
+                              <LetterReveal text="Sample interactive studio preview" trigger="mount" />
                             </div>
                           )}
                         </div>
@@ -326,13 +329,13 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
 
                         <div className="p-6 sm:p-8 bg-[#101B16] text-white">
                           <p className="text-xs font-semibold text-[#B9F6CA] mb-2">
-                            {project.category}
+                            <LetterReveal text={project.category} trigger="mount" />
                           </p>
                           <h3 className="font-display font-bold text-xl sm:text-2xl leading-snug max-w-lg">
-                            {project.previewHeadline}
+                            <LetterReveal text={project.previewHeadline} trigger="mount" />
                           </h3>
                           <p className="mt-2.5 text-sm text-white/75 max-w-lg">
-                            {project.previewSubheadline}
+                            <LetterReveal text={project.previewSubheadline} trigger="mount" />
                           </p>
                         </div>
 
@@ -378,7 +381,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                   }}
                   className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-bold text-[#101B16] bg-[#B9F6CA] hover:bg-[#9ef0b5] rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer"
                 >
-                  <span>Start a Similar Project</span>
+                  <LetterReveal text="Start a Similar Project" trigger="mount" />
                   <ArrowRight
                     className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5"
                     aria-hidden="true"

@@ -1,9 +1,12 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { STUDIO_IMAGES } from '../data/studioData';
 import { PageId, TeamMember } from '../types';
+import { ImageWithFallback } from '../components/ImageWithFallback';
 import { AdminAuthStatus } from '../components/TeamAdminPanel';
 import { TeamSection } from '../components/TeamSection';
-import { MagneticButton, Reveal } from '../components/MotionSystem';
+import { WelcomeTeamSection } from '../components/WelcomeTeamSection';
+import { LetterReveal, MagneticButton, Reveal } from '../components/MotionSystem';
 
 interface TeamPageProps {
   members: TeamMember[];
@@ -46,6 +49,7 @@ export const TeamPage: React.FC<TeamPageProps> = ({
 }) => {
   return (
     <div className="bg-white text-[#101B16]">
+      <WelcomeTeamSection />
       <TeamSection
         members={members}
         isLoading={isLoading}
@@ -67,15 +71,23 @@ export const TeamPage: React.FC<TeamPageProps> = ({
       />
 
       {/* Bottom CTA */}
-      <section className="py-16 bg-[#101B16] text-white">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <section className="relative overflow-hidden py-16 bg-[#101B16] text-white">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          <ImageWithFallback
+            src={STUDIO_IMAGES.ctaBackdrop}
+            alt=""
+            className="w-full h-full object-cover opacity-35"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#101B16]/94 via-[#101B16]/86 to-[#101B16]/78" />
+        </div>
+
+        <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <Reveal direction="right">
             <h2 className="font-display font-extrabold text-2xl sm:text-3xl tracking-tight">
-              Want to collaborate directly with our studio specialists?
+              <LetterReveal text="Want to collaborate directly with our studio specialists?" />
             </h2>
-            <p className="mt-2 text-white/75 text-sm sm:text-base">
-              Share your project goals and connect with our engineering and design
-              leads.
+            <p className="mt-2 text-white/80 text-sm sm:text-base">
+              <LetterReveal text="Share your project goals and connect with our engineering and design leads." />
             </p>
           </Reveal>
           <Reveal direction="left" delay={0.08}>

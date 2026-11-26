@@ -28,6 +28,7 @@ export interface ServiceItem {
   index: string;
   title: string;
   description: string;
+  image?: string;
   iconName:
     | 'Globe'
     | 'ShoppingBag'
@@ -61,11 +62,13 @@ export interface ProcessStep {
   title: string;
   description: string;
   output: string;
+  image?: string;
 }
 
 export interface WhyChooseUsItem {
   title: string;
   description: string;
+  image?: string;
   iconName:
     | 'Sparkles'
     | 'Smartphone'
@@ -82,6 +85,7 @@ export interface SampleTestimonial {
   authorPlaceholder: string;
   rolePlaceholder: string;
   projectCategory: string;
+  image?: string;
 }
 
 export interface ServiceContactProfile {

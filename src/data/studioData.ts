@@ -9,6 +9,19 @@ import {
 export const HERO_3D_IMAGE =
   '/src/assets/images/hero_forest_lime_3d_1795607201551.jpg';
 
+export const STUDIO_IMAGES = {
+  heroBackdrop: '/src/assets/images/hero_forest_lime_3d_1795607201551.jpg',
+  heroMockupPreview: '/src/assets/images/hero_abstract_3d_web_1795605203405.jpg',
+  aboutWorkspace: '/src/assets/images/about_studio_workspace_1795605206388.jpg',
+  teamCollaboration: '/src/assets/images/studio_team_collaboration_1795692313362.jpg',
+  ctaBackdrop: '/src/assets/images/cta_architectural_backdrop_1795692313261.jpg',
+  portfolioCraft: '/src/assets/images/project_portfolio_minimal_1795607202030.jpg',
+  discoveryStudio: '/src/assets/images/process_discovery_strategy_1795692312859.jpg',
+  launchStudio: '/src/assets/images/process_launch_deployment_1795692312983.jpg',
+  uiuxCraft: '/src/assets/images/service_uiux_design_1795692310972.jpg',
+  responsiveCraft: '/src/assets/images/service_website_redesign_1795692312427.jpg',
+};
+
 export const SERVICES: ServiceItem[] = [
   {
     id: 'website-development',
@@ -16,6 +29,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'Website Development',
     description:
       'Custom, responsive business websites engineered with clean code, fast load times, and clear paths to inquiry.',
+    image: '/src/assets/images/portfolio_corporate_enterprise_1795605205814.jpg',
     iconName: 'Globe',
     deliverables: [
       'Responsive layouts across mobile, tablet, and desktop',
@@ -30,6 +44,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'E-Commerce Development',
     description:
       'Modern online stores designed for effortless product discovery, mobile shopping, and smooth checkout experiences.',
+    image: '/src/assets/images/portfolio_ecommerce_store_1795605205063.jpg',
     iconName: 'ShoppingBag',
     deliverables: [
       'Product catalog, category filtering, and shopping cart',
@@ -44,6 +59,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'UI/UX Design',
     description:
       'Minimal, user-centered interface systems and prototypes that make complex digital products intuitive to use.',
+    image: '/src/assets/images/service_uiux_design_1795692310972.jpg',
     iconName: 'Palette',
     deliverables: [
       'User flow mapping, wireframes, and visual hierarchy',
@@ -58,6 +74,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'Web Applications',
     description:
       'Scalable custom web apps, client portals, and internal dashboards tailored to your specific operational workflows.',
+    image: '/src/assets/images/portfolio_fintech_platform_1795605205058.jpg',
     iconName: 'Cpu',
     deliverables: [
       'Custom React and TypeScript application architecture',
@@ -72,6 +89,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'Landing Page Development',
     description:
       'Focused, high-clarity landing pages built for marketing campaigns, product launches, and direct lead capture.',
+    image: '/src/assets/images/portfolio_saas_landing_1795605206919.jpg',
     iconName: 'LayoutTemplate',
     deliverables: [
       'Conversion-focused section flow and clear CTAs',
@@ -86,6 +104,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'SEO & Optimization',
     description:
       'Technical SEO foundations, semantic structure, and Core Web Vitals tuning to improve search visibility and speed.',
+    image: '/src/assets/images/service_seo_analytics_1795692311402.jpg',
     iconName: 'Search',
     deliverables: [
       'Metadata, OpenGraph, and Schema.org structured data',
@@ -100,6 +119,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'Website Redesign',
     description:
       'Thoughtful modernization of outdated websites into crisp, mobile-ready platforms aligned with your current brand.',
+    image: '/src/assets/images/service_website_redesign_1795692312427.jpg',
     iconName: 'RefreshCw',
     deliverables: [
       'UX review of existing pages and navigation bottlenecks',
@@ -114,6 +134,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'Website Maintenance',
     description:
       'Dependable ongoing updates, security checks, backups, and performance monitoring to keep your site running smoothly.',
+    image: '/src/assets/images/service_maintenance_code_1795692311353.jpg',
     iconName: 'ShieldCheck',
     deliverables: [
       'Regular content, UI, and dependency updates',
@@ -131,6 +152,7 @@ export const PROCESS_STEPS: ProcessStep[] = [
     description:
       'We align on your business goals, target audience, content structure, and technical scope before any design begins.',
     output: 'Scope & Sitemap',
+    image: '/src/assets/images/process_discovery_strategy_1795692312859.jpg',
   },
   {
     number: '02',
@@ -138,6 +160,7 @@ export const PROCESS_STEPS: ProcessStep[] = [
     description:
       'We craft clean, minimalist layouts and responsive user journeys tailored to build trust and guide visitor action.',
     output: 'UI/UX Direction',
+    image: '/src/assets/images/service_uiux_design_1795692310972.jpg',
   },
   {
     number: '03',
@@ -145,6 +168,7 @@ export const PROCESS_STEPS: ProcessStep[] = [
     description:
       'We engineer your website or web app with modern TypeScript, React, Tailwind CSS, and smooth motion interactions.',
     output: 'Responsive Build',
+    image: '/src/assets/images/service_maintenance_code_1795692311353.jpg',
   },
   {
     number: '04',
@@ -152,6 +176,7 @@ export const PROCESS_STEPS: ProcessStep[] = [
     description:
       'We verify cross-device responsiveness, SEO metadata, and speed performance, then deploy cleanly with ongoing support.',
     output: 'Live Deployment',
+    image: '/src/assets/images/process_launch_deployment_1795692312983.jpg',
   },
 ];
 
@@ -160,36 +185,42 @@ export const WHY_CHOOSE_US: WhyChooseUsItem[] = [
     title: 'Modern design',
     description:
       'Minimalist typography, balanced whitespace, and intentional visual hierarchy that position your brand with authority.',
+    image: '/src/assets/images/hero_abstract_3d_web_1795605203405.jpg',
     iconName: 'Sparkles',
   },
   {
     title: 'Mobile-first development',
     description:
       'Every interface is structured to feel effortless on smartphones, tablets, and wide desktop screens alike.',
+    image: '/src/assets/images/service_website_redesign_1795692312427.jpg',
     iconName: 'Smartphone',
   },
   {
     title: 'Fast performance',
     description:
       'Lean codebases, optimized imagery, and zero unnecessary bloat so visitors never wait for pages to load.',
+    image: '/src/assets/images/service_seo_analytics_1795692311402.jpg',
     iconName: 'Zap',
   },
   {
     title: 'Client-focused approach',
     description:
       'We measure every design and technical choice against how clearly it serves your customers and business objectives.',
+    image: '/src/assets/images/studio_team_collaboration_1795692313362.jpg',
     iconName: 'Users',
   },
   {
     title: 'Reliable communication',
     description:
       'Direct updates, clear milestones, and quick WhatsApp and email responsiveness from kickoff through launch.',
+    image: '/src/assets/images/about_studio_workspace_1795605206388.jpg',
     iconName: 'MessageSquare',
   },
   {
     title: 'Custom solutions',
     description:
       'No cookie-cutter templates—every website, storefront, and web application is built around your exact needs.',
+    image: '/src/assets/images/portfolio_saas_landing_1795605206919.jpg',
     iconName: 'Sliders',
   },
 ];
@@ -203,6 +234,7 @@ export const SAMPLE_TESTIMONIALS: SampleTestimonial[] = [
     authorPlaceholder: 'Client Name (Sample)',
     rolePlaceholder: 'Founder, Business Website Client',
     projectCategory: 'Website Development',
+    image: '/src/assets/images/project_business_corporate_1795607201341.jpg',
   },
   {
     id: 'sample-2',
@@ -212,6 +244,7 @@ export const SAMPLE_TESTIMONIALS: SampleTestimonial[] = [
     authorPlaceholder: 'Client Name (Sample)',
     rolePlaceholder: 'Director, E-Commerce Brand',
     projectCategory: 'E-Commerce Development',
+    image: '/src/assets/images/project_ecommerce_botanical_1795607200381.jpg',
   },
   {
     id: 'sample-3',
@@ -221,6 +254,7 @@ export const SAMPLE_TESTIMONIALS: SampleTestimonial[] = [
     authorPlaceholder: 'Client Name (Sample)',
     rolePlaceholder: 'Product Lead, SaaS Startup',
     projectCategory: 'Web Applications',
+    image: '/src/assets/images/project_webapp_dashboard_1795607202327.jpg',
   },
 ];
 

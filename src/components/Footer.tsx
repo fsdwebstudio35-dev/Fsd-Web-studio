@@ -2,9 +2,10 @@ import React from 'react';
 import { ArrowUp, ArrowUpRight, Mail, MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { buildWhatsAppUrl, STUDIO_CONFIG } from '../config/studioConfig';
-import { SERVICES } from '../data/studioData';
+import { SERVICES, STUDIO_IMAGES } from '../data/studioData';
 import { PageId } from '../types';
-import { EASE_AGENCY, MagneticButton, Reveal, RevealItem, RevealStagger } from './MotionSystem';
+import { ImageWithFallback } from './ImageWithFallback';
+import { EASE_AGENCY, LetterReveal, MagneticButton, Reveal, RevealItem, RevealStagger } from './MotionSystem';
 
 interface FooterProps {
   onNavigate: (page: PageId, preselectedService?: string) => void;
@@ -21,6 +22,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
   return (
     <footer className="relative overflow-hidden bg-[#101B16] text-white border-t border-white/10">
+      {/* Subtle architectural background texture with high-contrast scrim */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <ImageWithFallback
+          src={STUDIO_IMAGES.ctaBackdrop}
+          alt=""
+          className="w-full h-full object-cover opacity-15"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101B16]/96 via-[#101B16]/92 to-[#101B16]/95" />
+      </div>
+
       {/* Subtle ambient background highlight */}
       <div
         aria-hidden="true"
@@ -55,17 +66,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <rect x="19.5" y="18.5" width="4" height="4.5" rx="1" fill="#101B16" />
               </svg>
               <span className="font-display font-bold text-lg tracking-tight text-white">
-                {STUDIO_CONFIG.brandName}
+                <LetterReveal text={STUDIO_CONFIG.brandName} />
               </span>
             </motion.button>
 
             <p className="text-sm font-semibold text-[#B9F6CA]">
-              {STUDIO_CONFIG.tagline}
+              <LetterReveal text={STUDIO_CONFIG.tagline} />
             </p>
 
             <p className="text-sm text-white/75 leading-relaxed max-w-sm">
-              Minimalist web development, e-commerce, UI/UX design, and custom web
-              applications for startups, small businesses, and global clients.
+              <LetterReveal text="Minimalist web development, e-commerce, UI/UX design, and custom web applications for startups, small businesses, and global clients." />
             </p>
 
             <div className="pt-2 space-y-2 text-sm">
@@ -106,7 +116,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           {/* Navigation */}
           <RevealItem className="lg:col-span-2">
             <h3 className="font-display font-bold text-sm text-white mb-4">
-              Navigation
+              <LetterReveal text="Navigation" />
             </h3>
             <ul className="space-y-2.5 text-sm">
               {(
@@ -135,7 +145,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           {/* Services */}
           <RevealItem className="lg:col-span-4">
             <h3 className="font-display font-bold text-sm text-white mb-4">
-              Services
+              <LetterReveal text="Services" />
             </h3>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2.5 text-sm">
               {SERVICES.map((service) => (
@@ -155,7 +165,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           {/* Social Links */}
           <RevealItem className="lg:col-span-2">
             <h3 className="font-display font-bold text-sm text-white mb-4">
-              Social Media
+              <LetterReveal text="Social Media" />
             </h3>
             <ul className="space-y-2.5 text-sm">
               {STUDIO_CONFIG.socialLinks.map((social) => (

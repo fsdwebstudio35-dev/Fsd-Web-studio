@@ -9,10 +9,13 @@ import {
   User,
 } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
+import { STUDIO_IMAGES } from '../data/studioData';
 import { TeamMember } from '../types';
+import { ImageWithFallback } from './ImageWithFallback';
 import { AdminAuthStatus, TeamAdminPanel } from './TeamAdminPanel';
 import {
   EASE_AGENCY,
+  LetterReveal,
   MagneticButton,
   Reveal,
   RevealItem,
@@ -131,13 +134,13 @@ export const TeamSection: React.FC<TeamSectionProps> = ({
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
           <Reveal direction="up" className="max-w-2xl">
             <p className="text-xs font-bold uppercase tracking-wider text-[#101B16]/65 mb-2">
-              Meet Our Team
+              <LetterReveal text="Meet Our Team" />
             </p>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-[2.6rem] text-[#101B16] tracking-tight leading-[1.1] text-balance">
-              The Creative Minds Behind FSD.
+              <LetterReveal text="The Creative Minds Behind FSD." />
             </h2>
             <p className="mt-3 text-base sm:text-lg text-[#101B16]/75 leading-relaxed">
-              Meet the talented people turning ideas into digital experiences.
+              <LetterReveal text="Meet the talented people turning ideas into digital experiences." />
             </p>
           </Reveal>
 
@@ -160,6 +163,35 @@ export const TeamSection: React.FC<TeamSectionProps> = ({
             </MagneticButton>
           </Reveal>
         </div>
+
+        {/* Studio Craft & Collaboration Visual Banner */}
+        <Reveal direction="up" delay={0.05} className="mb-10">
+          <div className="group relative h-[200px] sm:h-[250px] lg:h-[280px] w-full rounded-3xl overflow-hidden bg-[#101B16] border border-[#101B16]/10 shadow-[0_12px_32px_rgba(16,27,22,0.08)]">
+            <ImageWithFallback
+              src={STUDIO_IMAGES.teamCollaboration}
+              alt="FSD Web Studio multidisciplinary team collaborating on web architecture and UI design"
+              fallbackTitle="FSD Web Studio Collaboration"
+              className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-[#101B16]/88 via-[#101B16]/35 to-transparent"
+            />
+            <div className="absolute bottom-5 left-6 right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-2 text-white">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-wider text-[#B9F6CA]">
+                  <LetterReveal text="Multidisciplinary Digital Studio" />
+                </p>
+                <p className="font-display font-bold text-lg sm:text-xl mt-0.5">
+                  <LetterReveal text="Strategy, UI/UX design, full-stack code, and growth under one roof." />
+                </p>
+              </div>
+              <span className="text-xs font-medium text-white/80 whitespace-nowrap">
+                {members.length} Active Specialist{members.length === 1 ? '' : 's'}
+              </span>
+            </div>
+          </div>
+        </Reveal>
 
         {/* Team Member Cards Grid */}
         {isLoading ? (
@@ -281,27 +313,27 @@ export const TeamSection: React.FC<TeamSectionProps> = ({
                         <div className="p-6">
                           <div className="flex items-center justify-between gap-2">
                             <p className="text-xs font-bold uppercase tracking-wider text-[#101B16]/60 transition-transform duration-200 group-hover:translate-x-0.5">
-                              {member.jobTitle}
+                              <LetterReveal text={member.jobTitle} />
                             </p>
                             {isHighlighted && (
                               <span className="text-[11px] font-bold text-[#101B16] bg-[#B9F6CA]/70 px-2 py-0.5 rounded-md">
-                                Core Focus
+                                <LetterReveal text="Core Focus" />
                               </span>
                             )}
                           </div>
 
                           <h3 className="font-display font-extrabold text-xl text-[#101B16] mt-1.5 transition-transform duration-200 group-hover:translate-x-0.5">
-                            {member.fullName}
+                            <LetterReveal text={member.fullName} />
                           </h3>
 
                           {member.specialty && (
                             <p className="mt-1 text-xs font-semibold text-[#101B16]/75 leading-snug">
-                              {member.specialty}
+                              <LetterReveal text={member.specialty} />
                             </p>
                           )}
 
                           <p className="mt-3 text-sm text-[#101B16]/75 leading-relaxed">
-                            {member.bio}
+                            <LetterReveal text={member.bio} />
                           </p>
 
                           {/* Skills */}
