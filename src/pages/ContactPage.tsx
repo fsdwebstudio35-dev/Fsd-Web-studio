@@ -10,7 +10,7 @@ import {
   Send,
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
-import { buildWhatsAppUrl, STUDIO_CONFIG } from '../config/studioConfig';
+import { buildMailtoUrl, buildWhatsAppUrl, STUDIO_CONFIG } from '../config/studioConfig';
 import {
   SERVICE_CONTACT_PROFILES,
   SERVICES,
@@ -76,8 +76,14 @@ export const ContactPage: React.FC<ContactPageProps> = ({
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
+  const [submitError, setSubmitError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedData, setSubmittedData] = useState<FormValues | null>(null);
+  const [orderMeta, setOrderMeta] = useState<{
+    orderCode: string;
+    emailSent: boolean;
+    recipientEmail: string;
+  } | null>(null);
 
   const activeProfile =
     SERVICE_CONTACT_PROFILES[values.projectType] ??
@@ -95,6 +101,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({
       SERVICE_CONTACT_PROFILES[SERVICES[0].title];
 
     setSubmittedData(null);
+    setOrderMeta(null);
+    setSubmitError('');
     setErrors({});
     setValues((prev) => ({
       ...prev,
@@ -185,8 +193,27 @@ export const ContactPage: React.FC<ContactPageProps> = ({
     ].join('\n');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const formatOrderEmailBody = (data: FormValues, orderCode?: string): string => {
+    return [
+      `Hello ${STUDIO_CONFIG.brandName},`,
+      '',
+      ...(orderCode ? [`Order Reference: ${orderCode}`] : []),
+      `Name: ${data.name}`,
+      `Email: ${data.email}`,
+      `WhatsApp: ${data.whatsapp}`,
+      `Business: ${data.businessName}`,
+      `Project Type: ${data.projectType}`,
+      `Budget: ${data.budget}`,
+      `Key Features: ${data.selectedScopes.join(', ') || 'Standard'}`,
+      '',
+      'Project Description:',
+      data.description,
+    ].join('\n');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError('');
     const validationErrors = validate(values);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -194,14 +221,45 @@ export const ContactPage: React.FC<ContactPageProps> = ({
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const response = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+      const payload = (await response.json().catch(() => ({}))) as {
+        error?: string;
+        orderCode?: string;
+        emailSent?: boolean;
+        recipientEmail?: string;
+      };
+
+      if (!response.ok) {
+        setSubmitError(
+          payload.error || 'Could not submit your order right now. Please try again.'
+        );
+        return;
+      }
+
+      setOrderMeta({
+        orderCode: payload.orderCode || 'ORD-STUDIO',
+        emailSent: Boolean(payload.emailSent),
+        recipientEmail: payload.recipientEmail || STUDIO_CONFIG.email,
+      });
       setSubmittedData(values);
-    }, 280);
+    } catch {
+      setSubmitError(
+        'Network error while submitting your order. Please try again or use WhatsApp/Email directly.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
     setSubmittedData(null);
+    setOrderMeta(null);
+    setSubmitError('');
     setValues((prev) => ({
       ...prev,
       name: '',
@@ -220,6 +278,16 @@ export const ContactPage: React.FC<ContactPageProps> = ({
   const preparedWhatsappUrl = submittedData
     ? buildWhatsAppUrl(formatWhatsAppInquiry(submittedData))
     : directWhatsappUrl;
+
+  const preparedMailtoUrl = submittedData
+    ? buildMailtoUrl(
+        `New Order${orderMeta?.orderCode ? ` [${orderMeta.orderCode}]` : ''} — ${submittedData.projectType} (${submittedData.businessName})`,
+        formatOrderEmailBody(submittedData, orderMeta?.orderCode)
+      )
+    : buildMailtoUrl(
+        `Project Inquiry — ${values.projectType}`,
+        formatOrderEmailBody(values)
+      );
 
   const inputBaseClass =
     'w-full h-12 px-4 text-sm rounded-xl bg-[#F4F6F4] text-[#101B16] placeholder:text-[#101B16]/45 focus:outline-none focus:ring-2 transition-all duration-200';
@@ -365,26 +433,56 @@ export const ContactPage: React.FC<ContactPageProps> = ({
 
                       <div>
                         <p className="text-xs font-bold uppercase tracking-wider text-[#101B16]/60">
-                          Inquiry Prepared
+                          <LetterReveal
+                            text={
+                              orderMeta?.orderCode
+                                ? `Order Recorded · ${orderMeta.orderCode}`
+                                : 'Order Prepared'
+                            }
+                            trigger="mount"
+                          />
                         </p>
                         <h2 className="font-display font-extrabold text-2xl text-[#101B16] mt-1">
-                          Thank you, {submittedData.name}
+                          <LetterReveal text={`Thank you, ${submittedData.name}`} trigger="mount" />
                         </h2>
                         <p className="mt-2 text-sm sm:text-base text-[#101B16]/75 leading-relaxed">
-                          Your inquiry for{' '}
-                          <span className="font-bold text-[#101B16]">
-                            {submittedData.projectType}
-                          </span>{' '}
-                          is validated and ready. Send it directly via WhatsApp below or
-                          reach us anytime at{' '}
-                          <span className="font-bold text-[#101B16]">
-                            {STUDIO_CONFIG.email}
-                          </span>
-                          .
+                          {orderMeta?.emailSent ? (
+                            <>
+                              Your order for{' '}
+                              <span className="font-bold text-[#101B16]">
+                                {submittedData.projectType}
+                              </span>{' '}
+                              has been sent directly to{' '}
+                              <span className="font-bold text-[#101B16]">
+                                {orderMeta.recipientEmail}
+                              </span>
+                              . You can also send a copy on WhatsApp or your email app below.
+                            </>
+                          ) : (
+                            <>
+                              Your order for{' '}
+                              <span className="font-bold text-[#101B16]">
+                                {submittedData.projectType}
+                              </span>{' '}
+                              is validated and saved. Send it directly via{' '}
+                              <span className="font-bold text-[#101B16]">
+                                {orderMeta?.recipientEmail || STUDIO_CONFIG.email}
+                              </span>{' '}
+                              or WhatsApp below.
+                            </>
+                          )}
                         </p>
                       </div>
 
                       <div className="rounded-xl bg-[#F4F6F4] p-5 space-y-2.5 text-sm">
+                        {orderMeta?.orderCode && (
+                          <div className="flex justify-between gap-4">
+                            <span className="text-[#101B16]/65">Order Reference</span>
+                            <span className="font-mono font-bold text-[#101B16] text-right">
+                              {orderMeta.orderCode}
+                            </span>
+                          </div>
+                        )}
                         <div className="flex justify-between gap-4">
                           <span className="text-[#101B16]/65">Business</span>
                           <span className="font-semibold text-[#101B16] text-right">
@@ -413,14 +511,26 @@ export const ContactPage: React.FC<ContactPageProps> = ({
 
                       <div className="rounded-xl bg-[#101B16] text-white p-4">
                         <p className="text-[11px] font-bold uppercase tracking-wider text-[#B9F6CA] mb-2">
-                          Prepared WhatsApp Message
+                          Order Summary ({orderMeta?.recipientEmail || STUDIO_CONFIG.email})
                         </p>
                         <pre className="text-xs text-white/85 whitespace-pre-wrap font-sans leading-relaxed">
-                          {formatWhatsAppInquiry(submittedData)}
+                          {formatOrderEmailBody(submittedData, orderMeta?.orderCode)}
                         </pre>
                       </div>
 
                       <div className="flex flex-wrap items-center gap-3">
+                        <MagneticLink
+                          href={preparedMailtoUrl}
+                          className="group h-12 px-6 rounded-full bg-[#101B16] hover:bg-[#1c2e26] text-white text-sm font-bold inline-flex items-center gap-2 transition-colors"
+                        >
+                          <Mail className="w-4 h-4 text-[#B9F6CA]" aria-hidden="true" />
+                          <LetterReveal text="Send Order via Email" trigger="mount" />
+                          <ArrowUpRight
+                            className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                            aria-hidden="true"
+                          />
+                        </MagneticLink>
+
                         <MagneticLink
                           href={preparedWhatsappUrl}
                           target="_blank"
@@ -428,7 +538,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                           className="group h-12 px-6 rounded-full bg-[#B9F6CA] hover:bg-[#9ef0b5] text-[#101B16] text-sm font-bold inline-flex items-center gap-2 transition-colors"
                         >
                           <MessageCircle className="w-4 h-4" aria-hidden="true" />
-                          <span>Send Prepared Inquiry on WhatsApp</span>
+                          <LetterReveal text="Send on WhatsApp" trigger="mount" />
                           <ArrowUpRight
                             className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                             aria-hidden="true"
@@ -441,7 +551,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                           onClick={handleReset}
                           className="h-12 px-6 rounded-full bg-[#F4F6F4] hover:bg-[#e5eae5] text-[#101B16] text-sm font-bold transition-colors cursor-pointer"
                         >
-                          New Inquiry
+                          <LetterReveal text="New Order" trigger="mount" />
                         </motion.button>
                       </div>
                     </motion.div>
@@ -734,20 +844,28 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                         </AnimatePresence>
                       </div>
 
-                      {/* Submit + Direct WhatsApp */}
-                      <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {submitError && (
+                        <p className="flex items-center gap-1.5 text-xs text-red-700">
+                          <AlertCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
+                          <span>{submitError}</span>
+                        </p>
+                      )}
+
+                      {/* Submit + Direct Email & WhatsApp */}
+                      <div className="pt-2 grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <MagneticButton
                           type="submit"
                           disabled={isSubmitting}
-                          className="group h-12 px-6 rounded-full bg-[#B9F6CA] hover:bg-[#9ef0b5] disabled:opacity-60 text-[#101B16] text-sm font-bold inline-flex items-center justify-center gap-2 border border-[#101B16]/10 shadow-sm hover:shadow-[0_10px_24px_rgba(185,246,202,0.48)] transition-all whitespace-nowrap cursor-pointer"
+                          className="group h-12 px-5 rounded-full bg-[#B9F6CA] hover:bg-[#9ef0b5] disabled:opacity-60 text-[#101B16] text-sm font-bold inline-flex items-center justify-center gap-2 border border-[#101B16]/10 shadow-sm hover:shadow-[0_10px_24px_rgba(185,246,202,0.48)] transition-all whitespace-nowrap cursor-pointer"
                         >
                           <Send
                             className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                             aria-hidden="true"
                           />
-                          <span>
-                            {isSubmitting ? 'Preparing Inquiry...' : 'Prepare Inquiry'}
-                          </span>
+                          <LetterReveal
+                            text={isSubmitting ? 'Sending Order...' : 'Submit Order'}
+                            trigger="mount"
+                          />
                           {!isSubmitting && (
                             <ArrowRight
                               className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
@@ -757,16 +875,27 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                         </MagneticButton>
 
                         <MagneticLink
+                          href={preparedMailtoUrl}
+                          className="group h-12 px-5 rounded-full bg-[#F4F6F4] hover:bg-[#e5eae5] text-[#101B16] text-sm font-bold inline-flex items-center justify-center gap-2 transition-colors whitespace-nowrap"
+                        >
+                          <Mail
+                            className="w-4 h-4 text-[#101B16] transition-transform duration-200 group-hover:scale-110"
+                            aria-hidden="true"
+                          />
+                          <LetterReveal text="Send by Email" trigger="mount" />
+                        </MagneticLink>
+
+                        <MagneticLink
                           href={directWhatsappUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group h-12 px-6 rounded-full bg-[#101B16] hover:bg-[#1c2e26] text-white text-sm font-bold inline-flex items-center justify-center gap-2 transition-colors whitespace-nowrap"
+                          className="group h-12 px-5 rounded-full bg-[#101B16] hover:bg-[#1c2e26] text-white text-sm font-bold inline-flex items-center justify-center gap-2 transition-colors whitespace-nowrap"
                         >
                           <MessageCircle
                             className="w-4 h-4 text-[#B9F6CA] transition-transform duration-200 group-hover:scale-110"
                             aria-hidden="true"
                           />
-                          <span>WhatsApp Direct</span>
+                          <LetterReveal text="WhatsApp Direct" trigger="mount" />
                         </MagneticLink>
                       </div>
                     </motion.form>
@@ -861,9 +990,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                   <LetterReveal text="Email Inquiry" />
                 </p>
                 <a
-                  href={`mailto:${STUDIO_CONFIG.email}?subject=${encodeURIComponent(
-                    `Inquiry: ${activeProfile.serviceTitle}`
-                  )}`}
+                  href={preparedMailtoUrl}
                   className="group p-4 rounded-xl bg-[#F4F6F4] hover:bg-[#e5eae5] transition-colors flex items-center justify-between gap-3"
                 >
                   <div className="flex items-center gap-3 min-w-0">

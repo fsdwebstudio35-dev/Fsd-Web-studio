@@ -1,4 +1,5 @@
 import React from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { STUDIO_CONFIG } from '../config/studioConfig';
 import { ImageWithFallback } from './ImageWithFallback';
@@ -9,6 +10,7 @@ interface WelcomeMember {
   name: string;
   designation: string;
   portrait: string;
+  portfolioUrl?: string;
   isTransparentCutout?: boolean;
   zClass: string;
   scaleClass: string;
@@ -28,6 +30,7 @@ const WELCOME_MEMBERS: WelcomeMember[] = [
     name: 'M.Abdullah',
     designation: 'GRAPHIC DESIGNER (INTERN) / DEVELOPMENT',
     portrait: '/src/assets/images/team_portrait_abdullah_custom.png',
+    portfolioUrl: 'https://glowing-octo-winner-rust.vercel.app/',
     isTransparentCutout: true,
     zClass: 'z-20 hover:z-40',
     scaleClass: 'lg:scale-[1.06]',
@@ -198,13 +201,24 @@ export const WelcomeTeamSection: React.FC = () => {
                   }}
                   className="relative z-40 px-2.5 sm:px-3.5 w-full max-w-[255px]"
                 >
-                  <div className="min-h-[92px] flex flex-col justify-center rounded-2xl bg-white/65 backdrop-blur-md border border-white/80 shadow-[0_8px_24px_rgba(91,33,182,0.08)] px-3.5 py-3 transition-all duration-300 group-hover:bg-white/85 group-hover:border-[#A855F7]/35 group-hover:-translate-y-1">
+                  <div className="min-h-[96px] flex flex-col justify-center rounded-2xl bg-white/65 backdrop-blur-md border border-white/80 shadow-[0_8px_24px_rgba(91,33,182,0.08)] px-3.5 py-3 transition-all duration-300 group-hover:bg-white/85 group-hover:border-[#A855F7]/35 group-hover:-translate-y-1">
                     <h3 className="font-display font-extrabold text-base sm:text-lg tracking-wide text-[#2E1065] leading-tight">
                       <LetterReveal text={member.name} delay={0.1 + index * 0.05} />
                     </h3>
                     <p className="mt-1.5 text-[10px] font-bold tracking-[0.09em] text-[#6D28D9] leading-snug">
                       <LetterReveal text={member.designation} delay={0.16 + index * 0.05} />
                     </p>
+                    {member.portfolioUrl && (
+                      <a
+                        href={member.portfolioUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 inline-flex items-center justify-center gap-1 self-center px-3 py-1 rounded-full bg-[#6D28D9] hover:bg-[#5B21B6] text-white text-[10px] font-bold tracking-wide transition-colors shadow-xs"
+                      >
+                        <span>Portfolio</span>
+                        <ArrowUpRight className="w-3 h-3" aria-hidden="true" />
+                      </a>
+                    )}
                   </div>
                 </motion.div>
 

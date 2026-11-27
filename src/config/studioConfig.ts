@@ -23,3 +23,9 @@ export function buildWhatsAppUrl(message: string): string {
     message
   )}`;
 }
+
+export function buildMailtoUrl(subject: string, body: string): string {
+  return `mailto:${STUDIO_CONFIG.email}?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(body)}`;
+}

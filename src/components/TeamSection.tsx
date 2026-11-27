@@ -277,12 +277,14 @@ export const TeamSection: React.FC<TeamSectionProps> = ({
 
                       <div>
                         {/* Portrait Frame with Smooth Image Zoom */}
-                        <div className="relative aspect-[4/3] w-full bg-[#101B16] overflow-hidden">
+                        <div className="relative aspect-[4/3] w-full bg-gradient-to-b from-[#EDE8FC] via-[#D9CFF6] to-[#B7A5EC] overflow-hidden">
                           {member.photoUrl ? (
                             <img
                               src={member.photoUrl}
                               alt={`${member.fullName} — ${member.jobTitle}`}
-                              className="w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.07]"
+                              className={`w-full h-full object-cover ${
+                                member.id === 'member-all-team-seo' ? 'object-center' : 'object-top'
+                              } transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.07]`}
                             />
                           ) : (
                             <div className="relative w-full h-full flex flex-col items-center justify-center p-6 bg-gradient-to-br from-[#101B16] via-[#15261e] to-[#0b130f] text-white transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]">

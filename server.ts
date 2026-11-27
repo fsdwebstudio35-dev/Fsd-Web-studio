@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
 import express, { NextFunction, Request, Response } from 'express';
+import nodemailer from 'nodemailer';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ const DATA_DIR = path.resolve(__dirname, 'data');
 const TEAM_FILE = path.resolve(DATA_DIR, 'team.json');
 const PROJECTS_FILE = path.resolve(DATA_DIR, 'projects.json');
 const ADMIN_AUTH_FILE = path.resolve(DATA_DIR, 'admin-auth.json');
+const INQUIRIES_FILE = path.resolve(DATA_DIR, 'inquiries.json');
 
 const SESSION_SECRET =
   process.env.SESSION_SECRET?.trim() || crypto.randomBytes(32).toString('hex');
@@ -37,6 +39,25 @@ interface TokenPayload {
 
 const revokedTokenIds = new Set<string>();
 const failedLoginAttempts = new Map<string, { count: number; resetAt: number }>();
+const inquiryRateLimits = new Map<string, { count: number; resetAt: number }>();
+
+const DEFAULT_ORDER_EMAIL = 'fsdwebstudio35@gmail.com';
+
+interface InquiryRecord {
+  id: string;
+  orderCode: string;
+  name: string;
+  email: string;
+  whatsapp: string;
+  businessName: string;
+  projectType: string;
+  budget: string;
+  selectedScopes: string[];
+  description: string;
+  emailSent: boolean;
+  emailMode: 'smtp' | 'mailto_fallback';
+  createdAt: string;
+}
 
 interface TeamMemberRecord {
   id: string;
@@ -97,6 +118,8 @@ const INITIAL_TEAM_MEMBERS: TeamMemberRecord[] = [
       'React & TypeScript',
       'Responsive UI',
     ],
+    photoUrl: '/src/assets/images/team_portrait_abdullah_custom.png',
+    portfolioUrl: 'https://glowing-octo-winner-rust.vercel.app/',
     isFeatured: true,
     isVisible: true,
   },
@@ -107,6 +130,7 @@ const INITIAL_TEAM_MEMBERS: TeamMemberRecord[] = [
     specialty: 'Studio Direction & Client Strategy',
     bio: 'Directs studio vision, client partnerships, and long-term digital strategy across all web and product engagements.',
     skills: ['Digital Strategy', 'Client Partnerships', 'Product Direction'],
+    photoUrl: '/src/assets/images/team_portrait_elroy_1795693182053.jpg',
     isVisible: true,
   },
   {
@@ -116,6 +140,7 @@ const INITIAL_TEAM_MEMBERS: TeamMemberRecord[] = [
     specialty: 'Interactive Interfaces & Performance',
     bio: 'Builds responsive, accessible React and TypeScript interfaces with smooth motion interactions and fast rendering.',
     skills: ['Frontend Engineering', 'React', 'Responsive Layouts'],
+    photoUrl: '/src/assets/images/team_portrait_asad_1795694124136.jpg',
     isVisible: true,
   },
   {
@@ -125,6 +150,7 @@ const INITIAL_TEAM_MEMBERS: TeamMemberRecord[] = [
     specialty: 'Interface Systems & Server Architecture',
     bio: 'Shapes intuitive user interfaces and engineers reliable backend APIs, databases, and scalable application logic.',
     skills: ['UI/UX Design', 'Backend APIs', 'System Architecture'],
+    photoUrl: '/src/assets/images/team_portrait_mushahid_custom.png',
     isVisible: true,
   },
   {
@@ -134,6 +160,7 @@ const INITIAL_TEAM_MEMBERS: TeamMemberRecord[] = [
     specialty: 'Technical SEO & Search Visibility',
     bio: 'Optimizes technical search structure, metadata, Core Web Vitals, and organic visibility for client websites.',
     skills: ['Technical SEO', 'Core Web Vitals', 'Search Optimization'],
+    photoUrl: '/src/assets/images/studio_team_collaboration_1795692313362.jpg',
     isVisible: true,
   },
   {
@@ -143,6 +170,7 @@ const INITIAL_TEAM_MEMBERS: TeamMemberRecord[] = [
     specialty: 'Growth Campaigns & Conversion Funnels',
     bio: 'Aligns landing pages, campaign messaging, and conversion funnels to turn digital traffic into measurable business growth.',
     skills: ['Digital Marketing', 'Conversion Funnels', 'Campaign Strategy'],
+    photoUrl: '/src/assets/images/team_portrait_ranjeet_1795693182976.jpg',
     isVisible: true,
   },
 ];
@@ -279,7 +307,19 @@ function readTeamRecords(): TeamMemberRecord[] {
     const raw = fs.readFileSync(TEAM_FILE, 'utf8');
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return INITIAL_TEAM_MEMBERS;
-    return parsed.map((item) => normalizeTeamMember(item as Partial<TeamMemberRecord>));
+    const defaultById = new Map(
+      INITIAL_TEAM_MEMBERS.map((m) => [m.id, m])
+    );
+    return parsed.map((item) => {
+      const normalized = normalizeTeamMember(item as Partial<TeamMemberRecord>);
+      const defaults = defaultById.get(normalized.id);
+      if (!defaults) return normalized;
+      return {
+        ...normalized,
+        photoUrl: normalized.photoUrl || defaults.photoUrl,
+        portfolioUrl: normalized.portfolioUrl || defaults.portfolioUrl,
+      };
+    });
   } catch {
     return INITIAL_TEAM_MEMBERS;
   }
@@ -312,6 +352,192 @@ function readProjectRecords(): ProjectRecord[] {
 function writeProjectRecords(projects: ProjectRecord[]): void {
   ensureDataDir();
   fs.writeFileSync(PROJECTS_FILE, JSON.stringify(projects, null, 2), 'utf8');
+}
+
+function readInquiryRecords(): InquiryRecord[] {
+  ensureDataDir();
+  if (!fs.existsSync(INQUIRIES_FILE)) {
+    return [];
+  }
+  try {
+    const raw = fs.readFileSync(INQUIRIES_FILE, 'utf8');
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeInquiryRecords(inquiries: InquiryRecord[]): void {
+  ensureDataDir();
+  fs.writeFileSync(INQUIRIES_FILE, JSON.stringify(inquiries, null, 2), 'utf8');
+}
+
+function stripHeaderCrlf(value: string): string {
+  return value.replace(/[\r\n\0]+/g, ' ').trim();
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function validateInquiryInput(body: unknown): {
+  error?: string;
+  inquiry?: Omit<InquiryRecord, 'id' | 'orderCode' | 'emailSent' | 'emailMode' | 'createdAt'>;
+} {
+  if (!body || typeof body !== 'object') {
+    return { error: 'Invalid inquiry payload.' };
+  }
+  const data = body as Record<string, unknown>;
+
+  const name = typeof data.name === 'string' ? data.name.trim() : '';
+  const email = typeof data.email === 'string' ? data.email.trim() : '';
+  const whatsapp = typeof data.whatsapp === 'string' ? data.whatsapp.trim() : '';
+  const businessName = typeof data.businessName === 'string' ? data.businessName.trim() : '';
+  const projectType = typeof data.projectType === 'string' ? data.projectType.trim() : '';
+  const budget = typeof data.budget === 'string' ? data.budget.trim() : '';
+  const description = typeof data.description === 'string' ? data.description.trim() : '';
+
+  if (name.length < 2 || name.length > 100) {
+    return { error: 'Please enter your name (2–100 characters).' };
+  }
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  if (!email || email.length > 160 || !emailPattern.test(email)) {
+    return { error: 'Please enter a valid email address.' };
+  }
+  const digitsOnly = whatsapp.replace(/[^\d]/g, '');
+  if (!whatsapp || whatsapp.length > 30 || digitsOnly.length < 7 || digitsOnly.length > 15) {
+    return { error: 'Please enter a valid WhatsApp number (7–15 digits).' };
+  }
+  if (businessName.length < 2 || businessName.length > 120) {
+    return { error: 'Please enter your business or project name (2–120 characters).' };
+  }
+  if (projectType.length < 2 || projectType.length > 100) {
+    return { error: 'Please select a valid project type.' };
+  }
+  if (budget.length < 1 || budget.length > 60) {
+    return { error: 'Please select an estimated budget range.' };
+  }
+  if (description.length < 15 || description.length > 3000) {
+    return { error: 'Please enter a project description (15–3000 characters).' };
+  }
+
+  const selectedScopes = Array.isArray(data.selectedScopes)
+    ? data.selectedScopes
+        .filter((s): s is string => typeof s === 'string' && s.trim().length > 0)
+        .map((s) => s.trim().slice(0, 80))
+        .slice(0, 12)
+    : [];
+
+  return {
+    inquiry: {
+      name,
+      email,
+      whatsapp,
+      businessName,
+      projectType,
+      budget,
+      selectedScopes,
+      description,
+    },
+  };
+}
+
+function getOrderRecipientEmail(): string {
+  const configured = process.env.ORDER_RECIPIENT_EMAIL?.trim();
+  if (configured && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(configured)) {
+    return configured;
+  }
+  return DEFAULT_ORDER_EMAIL;
+}
+
+async function dispatchOrderNotificationEmail(
+  inquiry: Omit<InquiryRecord, 'emailSent' | 'emailMode'>
+): Promise<{ sent: boolean; mode: 'smtp' | 'mailto_fallback' }> {
+  const smtpUser = process.env.SMTP_USER?.trim();
+  const smtpPass = process.env.SMTP_PASS?.trim();
+  if (!smtpUser || !smtpPass) {
+    return { sent: false, mode: 'mailto_fallback' };
+  }
+
+  const smtpHost = process.env.SMTP_HOST?.trim() || 'smtp.gmail.com';
+  const smtpPort = Number(process.env.SMTP_PORT?.trim() || '465');
+  const recipientEmail = getOrderRecipientEmail();
+
+  const transporter = nodemailer.createTransport({
+    host: smtpHost,
+    port: Number.isFinite(smtpPort) ? smtpPort : 465,
+    secure: smtpPort === 465,
+    auth: {
+      user: smtpUser,
+      pass: smtpPass,
+    },
+  });
+
+  const scopesText = inquiry.selectedScopes.join(', ') || 'Standard';
+  const subject = stripHeaderCrlf(
+    `New Order [${inquiry.orderCode}] — ${inquiry.projectType} (${inquiry.businessName})`
+  );
+
+  const plainText = [
+    `New Project Order Received — FSD Web Studio`,
+    `Order Reference: ${inquiry.orderCode}`,
+    `Submitted At: ${inquiry.createdAt}`,
+    ``,
+    `Client Name: ${inquiry.name}`,
+    `Client Email: ${inquiry.email}`,
+    `WhatsApp: ${inquiry.whatsapp}`,
+    `Business: ${inquiry.businessName}`,
+    `Project Type: ${inquiry.projectType}`,
+    `Budget: ${inquiry.budget}`,
+    `Key Features: ${scopesText}`,
+    ``,
+    `Project Description:`,
+    inquiry.description,
+  ].join('\n');
+
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 620px; margin: 0 auto; color: #101B16; background: #ffffff; border: 1px solid #e2e8e4; border-radius: 16px; overflow: hidden;">
+      <div style="background: #101B16; color: #ffffff; padding: 24px 28px;">
+        <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #B9F6CA;">New Project Order · ${escapeHtml(inquiry.orderCode)}</div>
+        <h1 style="margin: 8px 0 0; font-size: 22px; line-height: 1.3;">${escapeHtml(inquiry.projectType)}</h1>
+      </div>
+      <div style="padding: 24px 28px;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+          <tr><td style="padding: 8px 0; color: #526058; width: 140px;">Client Name</td><td style="padding: 8px 0; font-weight: 600;">${escapeHtml(inquiry.name)}</td></tr>
+          <tr><td style="padding: 8px 0; color: #526058;">Client Email</td><td style="padding: 8px 0; font-weight: 600;">${escapeHtml(inquiry.email)}</td></tr>
+          <tr><td style="padding: 8px 0; color: #526058;">WhatsApp</td><td style="padding: 8px 0; font-weight: 600;">${escapeHtml(inquiry.whatsapp)}</td></tr>
+          <tr><td style="padding: 8px 0; color: #526058;">Business</td><td style="padding: 8px 0; font-weight: 600;">${escapeHtml(inquiry.businessName)}</td></tr>
+          <tr><td style="padding: 8px 0; color: #526058;">Budget</td><td style="padding: 8px 0; font-weight: 600;">${escapeHtml(inquiry.budget)}</td></tr>
+          <tr><td style="padding: 8px 0; color: #526058;">Key Features</td><td style="padding: 8px 0; font-weight: 600;">${escapeHtml(scopesText)}</td></tr>
+        </table>
+        <div style="margin-top: 20px; padding: 16px; background: #F4F6F4; border-radius: 12px;">
+          <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #526058; margin-bottom: 8px;">Project Brief</div>
+          <p style="margin: 0; font-size: 14px; line-height: 1.6; white-space: pre-wrap;">${escapeHtml(inquiry.description)}</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    await transporter.sendMail({
+      from: `"FSD Web Studio Orders" <${stripHeaderCrlf(smtpUser)}>`,
+      to: stripHeaderCrlf(recipientEmail),
+      replyTo: stripHeaderCrlf(inquiry.email),
+      subject,
+      text: plainText,
+      html,
+    });
+    return { sent: true, mode: 'smtp' };
+  } catch (err) {
+    console.error('Failed to send order notification email via SMTP:', err);
+    return { sent: false, mode: 'mailto_fallback' };
+  }
 }
 
 function readAdminAuthRecord(): AdminAuthRecord | null {
@@ -425,6 +651,9 @@ function sanitizePhotoUrl(raw: unknown): string | undefined {
   if (typeof raw !== 'string') return undefined;
   const trimmed = raw.trim();
   if (!trimmed) return undefined;
+  if (trimmed.startsWith('/src/assets/') || trimmed.startsWith('/assets/')) {
+    return trimmed;
+  }
   if (/^data:image\/(png|jpeg|jpg|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(trimmed)) {
     if (trimmed.length <= 3_500_000) {
       return trimmed;
@@ -894,6 +1123,61 @@ async function startServer() {
   app.post('/api/projects/reset', (_req, res) => {
     writeProjectRecords(INITIAL_PROJECTS);
     res.json({ projects: INITIAL_PROJECTS });
+  });
+
+  // Order / Inquiry submission & email dispatch endpoints
+  app.post('/api/inquiries', async (req, res) => {
+    const clientIp = req.ip || 'unknown';
+    const now = Date.now();
+    const rate = inquiryRateLimits.get(clientIp);
+    if (rate && rate.resetAt > now && rate.count >= 8) {
+      res.status(429).json({
+        error: 'Too many submissions in a short time. Please wait a minute and try again.',
+      });
+      return;
+    }
+
+    const { error, inquiry } = validateInquiryInput(req.body);
+    if (error || !inquiry) {
+      res.status(400).json({ error: error || 'Invalid inquiry details.' });
+      return;
+    }
+
+    inquiryRateLimits.set(clientIp, {
+      count: rate && rate.resetAt > now ? rate.count + 1 : 1,
+      resetAt: rate && rate.resetAt > now ? rate.resetAt : now + 60_000,
+    });
+
+    const baseRecord: Omit<InquiryRecord, 'emailSent' | 'emailMode'> = {
+      id: `inq-${crypto.randomUUID()}`,
+      orderCode: `ORD-${crypto.randomBytes(3).toString('hex').toUpperCase()}`,
+      ...inquiry,
+      createdAt: new Date().toISOString(),
+    };
+
+    const emailResult = await dispatchOrderNotificationEmail(baseRecord);
+
+    const savedRecord: InquiryRecord = {
+      ...baseRecord,
+      emailSent: emailResult.sent,
+      emailMode: emailResult.mode,
+    };
+
+    const existing = readInquiryRecords();
+    writeInquiryRecords([savedRecord, ...existing].slice(0, 500));
+
+    res.status(201).json({
+      orderCode: savedRecord.orderCode,
+      emailSent: savedRecord.emailSent,
+      emailMode: savedRecord.emailMode,
+      recipientEmail: getOrderRecipientEmail(),
+      createdAt: savedRecord.createdAt,
+    });
+  });
+
+  app.get('/api/admin/inquiries', requireAdmin, (_req, res) => {
+    const inquiries = readInquiryRecords();
+    res.json({ inquiries });
   });
 
   if (!IS_PRODUCTION) {
